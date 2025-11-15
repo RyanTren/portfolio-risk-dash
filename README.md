@@ -63,19 +63,19 @@ pgsql
 
 ## Project Plan/SDLC
 
-[x] Step 1 — Repo + Backend scaffold
+[x] [Step 1 — Repo + Backend scaffold](https://github.com/RyanTren/portfolio-risk-dash/issues/1)
 
 * ASP.NET Core Web API, EF Core DbContext (SQLite for local dev), models, a Portfolio CSV upload endpoint, simple GET endpoints.
 
 * Unit tests skeleton, README.
 
-[] Step 2 — Risk calculation service & results storage
+[] [Step 2 — Risk calculation service & results storage](https://github.com/RyanTren/portfolio-risk-dash/issues/3)
 
 * Implement RiskCalculationService with simple VaR / stress tests, store RiskResult rows.
 
 * Endpoint to trigger a run and to poll job status.
 
-[] Step 3 — React + TypeScript frontend scaffold
+[] [Step 3 — React + TypeScript frontend scaffold](https://github.com/RyanTren/portfolio-risk-dash/issues/4)
 
 * Create React app, Axios service, portfolio upload UI, portfolio list page, results page.
 
