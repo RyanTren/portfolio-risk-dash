@@ -1,4 +1,21 @@
-.vscode
+
 .env*
-/backend/backendAPI/bin/*
-/backend/backendAPI/obj/*
+
+# Build Folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# SQLite databases (if you want to ignore local DB)
+*.db
+*.sqlite
+*.sqlite3
