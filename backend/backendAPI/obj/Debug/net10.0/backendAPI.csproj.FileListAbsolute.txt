@@ -208,3 +208,4 @@ C:\Users\Ryan\OneDrive\Desktop\github repo storage\portfolio-risk-dash\backend\b
 C:\Users\Ryan\OneDrive\Desktop\github repo storage\portfolio-risk-dash\backend\backendAPI\obj\Debug\net10.0\backendAPI.pdb
 C:\Users\Ryan\OneDrive\Desktop\github repo storage\portfolio-risk-dash\backend\backendAPI\obj\Debug\net10.0\backendAPI.genruntimeconfig.cache
 C:\Users\Ryan\OneDrive\Desktop\github repo storage\portfolio-risk-dash\backend\backendAPI\obj\Debug\net10.0\ref\backendAPI.dll
+C:\Users\Ryan\OneDrive\Desktop\github repo storage\portfolio-risk-dash\backend\backendAPI\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.InMemory.dll
