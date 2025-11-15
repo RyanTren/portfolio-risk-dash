@@ -8,13 +8,13 @@ using System.Globalization;
 
 namespace backend.backendAPI.Services
 {
-    public class PortfolioService:IPortfolioService
+    public class PortfolioService : IPortfolioService
     {
         private readonly AppDbContext _db;
 
         public PortfolioService(AppDbContext db) {_db = db;}
 
-        public async Task<PortfolioService> CreateFromCsvAsync(string portfolioName, Stream csvStream)
+        public async Task<Portfolio> CreateFromCsvAsync(string portfolioName, Stream csvStream)
         {
             using var reader = new StreamReader(csvStream);
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -22,7 +22,11 @@ namespace backend.backendAPI.Services
 
             var records = csv.GetRecords<PositionCsvModel>().ToList();
 
-            var portfolio = new PortfolioService {Name = portfolioName};
+            var portfolio = new Portfolio {
+                Name = portfolioName,
+                Positions = new List<Position>()
+            };
+
             foreach (var r in records)
             {
                 portfolio.Positions.Add(new Position
@@ -36,11 +40,12 @@ namespace backend.backendAPI.Services
 
             _db.Portfolios.Add(portfolio);
             await _db.SaveChangesAsync();
+
             return portfolio;
         }
 
         public async Task<List<Portfolio>> GetPortfoliosAsync() => await _db.Portfolios.Include(p => p.Positions).ToListAsync();
-        public async Task<List<Portfolio>> GetPortfoliosAsync(int Id) => await _db.Portfolios.Include(p => p.Positions).FirstOrDefaultAsync(p => p.Id == id);
+        public async Task<Portfolio?> GetPortfolioAsync(int id) => await _db.Portfolios.Include(p => p.Positions).FirstOrDefaultAsync(p => p.Id == id);
 
         private class PositionCsvModel
         {

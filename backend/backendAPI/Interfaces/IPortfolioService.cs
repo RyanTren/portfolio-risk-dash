@@ -6,7 +6,6 @@ namespace backend.backendAPI.Interfaces
     {
         Task<Portfolio> CreateFromCsvAsync(string portfolioName, Stream csvStream);
         Task<List<Portfolio>> GetPortfoliosAsync();
-        Task<Portfolio?> GetPortfolioAysnc(int id);
-
+        Task<Portfolio?> GetPortfolioAsync(int id);
     }
 }
