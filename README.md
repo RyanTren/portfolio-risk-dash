@@ -56,6 +56,44 @@ pgsql
                       └────────────────────────────┘
 ```
 
->## Dev
-``frontend/`` -> ``npm start``
-``backend/`` -> ``dotnet run``
+## Dev
+
+* ``cd frontend/`` -> ``npm start``
+* ``cd backend/backendAPI`` -> ``dotnet run``
+
+## Project Plan/SDLC
+
+1) Step 1 — Repo + Backend scaffold
+
+* ASP.NET Core Web API, EF Core DbContext (SQLite for local dev), models, a Portfolio CSV upload endpoint, simple GET endpoints.
+
+* Unit tests skeleton, README.
+
+2) Step 2 — Risk calculation service & results storage
+
+* Implement RiskCalculationService with simple VaR / stress tests, store RiskResult rows.
+
+* Endpoint to trigger a run and to poll job status.
+
+3) Step 3 — React + TypeScript frontend scaffold
+
+* Create React app, Axios service, portfolio upload UI, portfolio list page, results page.
+
+* Connect frontend to Step 1/2 backend.
+
+4) Step 4 — Visualization & UX
+
+* Add charts (Recharts), tables (ag-Grid or MUI DataGrid), scenario editor UI, pagination/virtualization.
+
+5) Step 5 — Asynchrony & job orchestration
+
+* Use background jobs (Hangfire or Azure WebJobs) or a message queue pattern to run calculations asynchronously.
+* Add job status + websockets (SignalR) or polling.
+
+6) Step 6 — Tests, CI, small deployment to Azure
+
+* Unit and integration tests, GitHub Actions CI, optional deploy to Azure App Service + Azure SQL (or free tier).
+
+7) Stretch features
+
+* Monte Carlo engine, caching (Redis), role-based security (Azure AD), multi-tenant support.

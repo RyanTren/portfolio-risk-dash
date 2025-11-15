@@ -1,2 +1,4 @@
 .vscode
 .env*
+/backend/backendAPI/bin/*
+/backend/backendAPI/obj/*
