@@ -56,4 +56,6 @@ pgsql
                       └────────────────────────────┘
 ```
 
->
+>## Dev
+``frontend/`` -> ``npm start``
+``backend/`` -> ``dotnet run``
