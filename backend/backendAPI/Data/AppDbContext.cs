@@ -11,5 +11,7 @@ namespace backend.backendAPI.Data
 
         public DbSet<Portfolio> Portfolios {get; set;} = null!;
         public DbSet<Position> Positions {get; set;} = null!;
+
+        public DbSet<RiskResult> RiskResults {get; set;}
     }
 }
