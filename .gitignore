@@ -1,21 +1,25 @@
 
 .env*
 
-# Build Folders
+# .NET build folders
 bin/
 obj/
 
-# User-specific files
-*.user
-*.suo
-
-# VS Code
-.vscode/
-
-# Logs
-*.log
-
-# SQLite databases (if you want to ignore local DB)
+# Build output artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
 *.db
-*.sqlite
-*.sqlite3
+*.db-wal
+*.db-shm
+
+# Razor/C# build caches
+*.dswa.cache.json
+*.sourcelink.json
+
+# Apphost
+apphost.exe
+
+# VSCode
+.vscode/

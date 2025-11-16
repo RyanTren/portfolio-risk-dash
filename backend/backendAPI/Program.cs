@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=data.db"));
 
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
+builder.Services.AddScoped<RiskCalculationService>();
 
 var app = builder.Build();
 
