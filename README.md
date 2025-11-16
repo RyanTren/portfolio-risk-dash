@@ -69,7 +69,7 @@ pgsql
 
 * Unit tests skeleton, README.
 
-[] [Step 2 — Risk calculation service & results storage](https://github.com/RyanTren/portfolio-risk-dash/issues/3)
+[x] [Step 2 — Risk calculation service & results storage](https://github.com/RyanTren/portfolio-risk-dash/issues/3)
 
 * Implement RiskCalculationService with simple VaR / stress tests, store RiskResult rows.
 
