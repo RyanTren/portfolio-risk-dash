@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.backendAPI.Interfaces;
+using backend.backendAPI.DTO;
 
 namespace backend.backendAPI.Controllers
 {
@@ -28,19 +29,28 @@ namespace backend.backendAPI.Controllers
             if (p == null)
                 return NotFound();
 
-            return Ok(p);
+            var dto = new PortfolioUploadResponseDTO
+            {
+                Id = p.Id,
+                Name = p.Name,
+                PositionCount = p.Positions.Count,
+                CreatedAt = p.CreatedAt
+            };
+
+            return Ok(dto);
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> Upload([FromQuery] string name)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Upload([FromForm] PortfolioUploadDTO request)
         {
-            if (Request.Form.Files.Count == 0)
+            if (request.File == null || request.File.Length == 0)
                 return BadRequest("No file uploaded");
 
-            var file = Request.Form.Files[0];
-            using var stream = file.OpenReadStream();
+            
+            using var stream = request.File.OpenReadStream();
 
-            var created = await _svc.CreateFromCsvAsync(name ?? "Uploaded Portfolio", stream);
+            var created = await _svc.CreateFromCsvAsync(request.Name ?? "Uploaded Portfolio", stream);
 
             return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
         }
