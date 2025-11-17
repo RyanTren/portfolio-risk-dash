@@ -8,7 +8,7 @@ namespace backend.backendAPI.Models
         [Key] // sets riskId as the Primary Key
         public int riskId {get; set;}
 
-
+        public int PortfolioId {get; set;}
         public DateTime Timestamp {get; set;} = DateTime.UtcNow;
 
         public decimal? PortfolioValue {get; set;}

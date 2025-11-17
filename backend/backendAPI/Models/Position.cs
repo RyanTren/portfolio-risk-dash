@@ -15,7 +15,8 @@ namespace backend.backendAPI.Models
           [JsonIgnore] //prevent infinite cycle for POST/api/Portfolio/upload
         public Portfolio? Portfolio {get; set;}
 
-        public string? Ticker {get; set;}
+        [Required]
+        public required string? Ticker {get; set;}
         public decimal Quantity {get; set;}
         public decimal Price {get; set;}
 
