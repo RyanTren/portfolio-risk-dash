@@ -1,6 +1,9 @@
 using CsvHelper;
 using CsvHelper.Configuration;
+
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
 using backend.backendAPI.Data;
 using backend.backendAPI.Models;
 using backend.backendAPI.Interfaces;
@@ -29,6 +32,9 @@ namespace backend.backendAPI.Services
 
             foreach (var r in records)
             {
+                if (string.IsNullOrWhiteSpace(r.Ticker))
+                    throw new Exception("CSV row missing Ticker");
+
                 portfolio.Positions.Add(new Position
                     {
                     Ticker = r.Ticker,
@@ -49,7 +55,7 @@ namespace backend.backendAPI.Services
 
         private class PositionCsvModel
         {
-            public string Ticker {get; set;}
+            public required string Ticker {get; set;}
             public decimal Quantity {get; set;}
             public decimal Price {get; set;}
 

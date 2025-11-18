@@ -12,11 +12,11 @@ namespace backend.backendAPI.Models
 
         public int PortfolioId {get; set;}
 
-          [JsonIgnore] //prevent infinite cycle for POST/api/Portfolio/upload
+        [JsonIgnore] //prevent infinite cycle for POST/api/Portfolio/upload
         public Portfolio? Portfolio {get; set;}
 
         [Required]
-        public required string? Ticker {get; set;}
+        public required string Ticker {get; set;}
         public decimal Quantity {get; set;}
         public decimal Price {get; set;}
 

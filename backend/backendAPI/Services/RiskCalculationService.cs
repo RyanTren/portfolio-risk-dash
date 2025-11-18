@@ -31,13 +31,19 @@ namespace backend.backendAPI.Services
             // 2. Queue background work (future)
             // BackgroundService / Hangfire task to compute risk later
             
-            _ = Task.Run(() => RunCalculationAsync(job.riskId));
+            await RunCalculationAsync(job.riskId);
+
             return job.riskId;
         }
 
         private async Task RunCalculationAsync(int id)
         {
             var record = await _db.RiskResults.FindAsync(id);
+
+            if(record is null)
+            {
+                return; // nothing to update, record not found
+            }
 
             try
             {
