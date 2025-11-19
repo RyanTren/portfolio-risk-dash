@@ -25,7 +25,7 @@ const RunRisk = () => {
 
   // Load portfolios
   useEffect(() => {
-    axios.get("http://localhost:5141/api/portfolios")
+    axios.get("http://localhost:5233/api/portfolio")
       .then(res => setPortfolios(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -40,15 +40,13 @@ const RunRisk = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5141/api/risk/start/${selectedId}`
-      );
-
-      const riskId = response.data.riskId;
+        `http://localhost:5233/risk/run/`, { portfolioId: selectedId });
+      const riskId = response.data.jobId;
       setStatus(`Running risk job #${riskId}...`);
 
       // Poll the backend every 2 seconds until status = "Completed"
       const interval = setInterval(async () => {
-        const r = await axios.get(`http://localhost:5141/api/risk/${riskId}`);
+        const r = await axios.get(`http://localhost:5233/risk/status/${riskId}`);
         setResult(r.data);
 
         if (r.data.status === "Completed") {

@@ -5,6 +5,7 @@ import PortfolioList from "./pages/PortfolioList";
 import PortfolioUpload from "./pages/PortfolioUpload";
 import PortfolioDetail from "./pages/PortfolioDetail";
 import RiskResultPage from "./pages/RiskResultPage";
+import RunRisk from "./pages/RunRisk";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path="/portfolio/:id" element={<PortfolioDetail />} />
 
         <Route path="/risk/:id" element={<RiskResultPage />} />
+
+        <Route path="run-risk" element={<RunRisk/>}></Route>
 
       </Routes>
     </Router>
