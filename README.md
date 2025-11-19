@@ -75,7 +75,7 @@ pgsql
 
 * Endpoint to trigger a run and to poll job status.
 
-[] [Step 3 — React + TypeScript frontend scaffold](https://github.com/RyanTren/portfolio-risk-dash/issues/4)
+[x] [Step 3 — Basic React + TypeScript frontend scaffold](https://github.com/RyanTren/portfolio-risk-dash/issues/4)
 
 * Create React app, Axios service, portfolio upload UI, portfolio list page, results page.
 
