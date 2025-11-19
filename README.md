@@ -1,6 +1,6 @@
 # portfolio-risk-dash
 
-practice for milliman
+im going to be interning at an actuary firm in ``chicago,il`` for **summer 2026**, i made this to get familiar and practice with thier tech stack and learn things along the way!
 
 ## Goal
 
