@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using backend.backendAPI.Data;
 using backend.backendAPI.Services;
 using backend.backendAPI.Models;
+using backend.backendAPI.Models.Requests;
 
 namespace backend.backendAPI.Controllers
 {
@@ -20,9 +21,9 @@ namespace backend.backendAPI.Controllers
         }
 
         [HttpPost("run")]
-        public async Task<IActionResult> StartRun()
+        public async Task<IActionResult> StartRun([FromBody] StartRiskRequest req)
         {
-            int id = await _service.StartRiskRunAsync();
+            int id = await _service.StartRiskRunAsync(req.PortfolioId);
             return Ok(new {jobId = id});
         }
 
