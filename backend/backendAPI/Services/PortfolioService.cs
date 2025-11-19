@@ -53,6 +53,16 @@ namespace backend.backendAPI.Services
         public async Task<List<Portfolio>> GetPortfoliosAsync() => await _db.Portfolios.Include(p => p.Positions).ToListAsync();
         public async Task<Portfolio?> GetPortfolioAsync(int id) => await _db.Portfolios.Include(p => p.Positions).FirstOrDefaultAsync(p => p.Id == id);
 
+        public async Task<bool> DeletePortfolioAsync(int id)
+        {
+            var portfolio = await _db.Portfolios.FindAsync(id);
+            if(portfolio == null) return false;
+
+            _db.Portfolios.Remove(portfolio);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
         private class PositionCsvModel
         {
             public required string Ticker {get; set;}

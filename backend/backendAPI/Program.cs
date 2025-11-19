@@ -5,14 +5,27 @@ using backend.backendAPI.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// adds services
+// Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// database stuff
+// Add CORS so React can call the API
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
+// Database
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=data.db"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") 
+        ?? "Data Source=data.db"));
 
 // DI
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
@@ -20,32 +33,40 @@ builder.Services.AddScoped<RiskCalculationService>();
 
 var app = builder.Build();
 
-
-// this adds Swagger API Dashboard: http://localhost:5233/swagger
+// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-        c.RoutePrefix = string.Empty; // this makes swagger the root url 
+        c.RoutePrefix = string.Empty; 
     });
 }
 else
 {
-    app.MapGet("/", () => Results.Json(new { status = "Backend API is running! \n Go to http://localhost:5233/swagger" }));
+    app.MapGet("/", () => Results.Json(new 
+    { 
+        status = "Backend API is running! Go to /swagger" 
+    }));
 }
 
-app.UseHttpsRedirection();
+// ❌ Disable HTTPS redirect in development
+// app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
+// ✔ Apply CORS before controllers
+app.UseCors("AllowFrontend");
+
 app.MapControllers();
 
-//  applies migrations automatically in dev
-using(var scope = app.Services.CreateScope())
+// Auto migrations
+using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated(); 
-    db.Database.Migrate(); //aplied any pending migrations
+    db.Database.EnsureCreated();
+    db.Database.Migrate();
 }
 
 app.Run();

@@ -34,8 +34,17 @@ namespace backend.backendAPI.Controllers
                 Id = p.Id,
                 Name = p.Name,
                 PositionCount = p.Positions.Count,
-                CreatedAt = p.CreatedAt
+                CreatedAt = p.CreatedAt,
+                Positions = p.Positions.Select(pos => new PositionDTO
+                {
+                    Id = pos.Id,
+                    PortfolioId = pos.PortfolioId,
+                    Ticker = pos.Ticker,
+                    Quantity = pos.Quantity,
+                    Price = pos.Price
+                }).ToList()
             };
+
 
             return Ok(dto);
         }
@@ -53,6 +62,18 @@ namespace backend.backendAPI.Controllers
             var created = await _svc.CreateFromCsvAsync(request.Name ?? "Uploaded Portfolio", stream);
 
             return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var success = await _svc.DeletePortfolioAsync(id);
+
+            if (!success)
+            {
+                return NotFound();
+            }
+            return NoContent(); 
         }
     }
 }

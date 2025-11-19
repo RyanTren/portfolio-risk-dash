@@ -8,5 +8,6 @@ namespace backend.backendAPI.DTO{
         public required string Name {get; set;} 
         public int PositionCount {get; set;} 
         public DateTime CreatedAt {get; set;} 
+        public List<PositionDTO> Positions {get; set;} = new();
     } 
 }
