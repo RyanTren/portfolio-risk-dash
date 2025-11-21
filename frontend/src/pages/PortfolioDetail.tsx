@@ -3,6 +3,8 @@ import { getPortfolio, runRisk } from "../api/api";
 import type { Portfolio } from "../types/types";
 import { useParams, useNavigate } from "react-router-dom";
 
+import { Button } from "../components/ui/button";
+
 export default function PortfolioDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export default function PortfolioDetail() {
 
   useEffect(() => {
   getPortfolio(Number(id)).then(res => {
-    console.log("Raw API response:", res.data);
+    // console.log("Raw API response:", res.data);
     setPortfolio(res.data);
   });
 }, [id]);
@@ -30,11 +32,11 @@ export default function PortfolioDetail() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>{portfolio.name}</h2>
-      <p>Positions: {portfolio.positions?.length ?? 0}</p>
+      <h2 style={{ margin: 10}}>{portfolio.name}</h2>
+      <a style={{padding: 12, margin: 15, gap: 10}}>Positions: {portfolio.positions?.length ?? 0}</a>
 
-      <h3>Tickers:</h3>
-      <ul>
+      <h3 style={{margin: 20}}>Tickers:</h3>
+      <ul style={{margin: 20}}>
         {portfolio.positions?.map(pos => (
           <li key={pos.id}>
             {pos.ticker} — {pos.quantity} shares @ ${pos.price}
@@ -42,7 +44,7 @@ export default function PortfolioDetail() {
         ))}
       </ul>
 
-      <button onClick={startRisk}>Run Risk</button>
+      <Button variant="outline" style={{ margin: 10}} onClick={startRisk}>Run Risk</Button>
     </div>
   );
 }

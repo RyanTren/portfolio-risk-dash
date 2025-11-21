@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { uploadPortfolio } from "../api/api";
+import { Button } from "../components/ui/button";
 
 export default function PortfolioUpload() {
   const [file, setFile] = useState<File | null>(null);
@@ -25,7 +26,7 @@ export default function PortfolioUpload() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2 style={{margin: 10,}}>Upload Portfolio</h2>
+      <h2 className="h2" style={{margin: 10, padding: 10, justifyContent: "center", alignItems: "center", textAlign: "center"}}>Upload Portfolio</h2>
 
       <input
         style={{margin: 10, border: 10, outline: 1, outlineColor: "black",}}
@@ -39,7 +40,7 @@ export default function PortfolioUpload() {
         style={{margin: 10, border: 10, outline: 1, outlineColor: "black", borderBlockColor: "black",}}
         onChange={(e) => setFile(e.target.files?.[0] ?? null)} /><br/><br/>
 
-      <button onClick={submit}>Upload</button>
+      <Button variant="outline" onClick={submit}>Upload</Button>
     </div>
   );
 }

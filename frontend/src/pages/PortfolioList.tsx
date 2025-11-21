@@ -3,6 +3,8 @@ import { getPortfolios, deletePortfolio } from "../api/api";
 import type { Portfolio } from "../types/types";
 import { Link } from "react-router-dom";
 
+import { Button } from "../components/ui/button";
+
 export default function PortfolioList() {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
 
@@ -26,16 +28,16 @@ export default function PortfolioList() {
 
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 20, margin: 20, gap: 10 }}>
       <h2>Portfolios</h2>
 
       <ul>
         {portfolios.map(p => (
           <li key={p.id}>
             <Link to={`/portfolio/${p.id}`}>
-              {p.name} — {p.positions.length} positions
+              Portfolio Name | {p.name} | {p.positions.length} positions
             </Link>
-            <button onClick={() => handleDelete(p.id)}>Delete</button>
+            <Button variant="outline" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(p.id)}>Delete</Button>
           </li>
         ))}
       </ul>

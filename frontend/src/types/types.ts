@@ -13,6 +13,12 @@ export interface Portfolio {
   createdAt: string;
 }
 
+export interface PortfolioSelectProps {
+  portfolios: Portfolio[];
+  selectedId: number | null;
+  onSelect: (id: number) => void;
+}
+
 export interface RiskResult {
   riskId: number;
   portfolioId: number;
