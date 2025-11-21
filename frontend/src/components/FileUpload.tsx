@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+import { Button } from "./ui/button";
+
 const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<string>("");
@@ -41,7 +43,7 @@ const FileUpload = () => {
 
       <input type="file" accept=".csv" onChange={handleFileChange} />
 
-      <button onClick={upload}>Upload</button>
+      <Button variant="outline" onClick={upload}>Upload</Button>
 
       <p>{status}</p>
     </div>

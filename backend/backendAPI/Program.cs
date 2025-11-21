@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+
+using Microsoft.AspNetCore.RateLimiting;
+
 using backend.backendAPI.Data;
 using backend.backendAPI.Services;
 using backend.backendAPI.Interfaces;
@@ -21,6 +24,18 @@ builder.Services.AddCors(options =>
               .AllowCredentials();
     });
 });
+
+// Rate Limiter
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("riskLimiter", config =>
+    {
+        config.PermitLimit = 5;      // 5 requests
+        config.Window = TimeSpan.FromSeconds(30);
+        config.QueueLimit = 0;
+    });
+});
+
 
 // Database
 builder.Services.AddDbContext<AppDbContext>(options =>
