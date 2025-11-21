@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -51,13 +51,12 @@ else
     }));
 }
 
-// ❌ Disable HTTPS redirect in development
-// app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 // ✔ Apply CORS before controllers
 app.UseCors("AllowFrontend");
+
+// ❌ Disable HTTPS redirect in development
+// app.UseHttpsRedirection();
+app.UseAuthorization();
 
 app.MapControllers();
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getRiskStatus } from "../api/api";
-import { RiskResult } from "../types/types";
+import type { RiskResult } from "../types/types";
 import RiskChart from "../components/RiskChart";
 import { useParams } from "react-router-dom";
 

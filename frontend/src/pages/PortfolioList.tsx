@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { getPortfolios, deletePortfolio } from "../api/api";
-import { Portfolio } from "../types/types";
+import type { Portfolio } from "../types/types";
 import { Link } from "react-router-dom";
 
 export default function PortfolioList() {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
 
   useEffect(() => {
-    getPortfolios().then(res => setPortfolios(res.data));
+    getPortfolios().then(res => {
+      setPortfolios(res.data);
+    });
   }, []);
 
   const handleDelete = async (id: number) => {

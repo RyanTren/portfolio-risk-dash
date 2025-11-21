@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPortfolio, runRisk } from "../api/api";
-import { Portfolio } from "../types/types";
+import type { Portfolio } from "../types/types";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function PortfolioDetail() {

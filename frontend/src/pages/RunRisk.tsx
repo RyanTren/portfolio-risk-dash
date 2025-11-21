@@ -33,6 +33,7 @@ const RunRisk = () => {
   const runRisk = async () => {
     if (!selectedId) {
       setStatus("Pick a portfolio.");
+      alert("No Portfolio was picked. Please select a portfolio.");
       return;
     }
 
