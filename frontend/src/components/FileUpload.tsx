@@ -23,7 +23,7 @@ const FileUpload = () => {
     try {
       setStatus("Uploading...");
 
-      await axios.post("http://localhost:5233/api/portfolio/upload", formData, {
+      await axios.post("http://localhost:5173/api/portfolio/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
