@@ -5,7 +5,7 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@heroui/theme/dist/components/(card|ripple).js"
+    "./node_modules/@heroui/theme/dist/components/(button|card|image|ripple|spinner).js"
   ],
   theme: {
     extend: {

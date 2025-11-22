@@ -3,6 +3,8 @@
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 
+import {HeroUIProvider} from "@heroui/react";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/ui/theme-provider";
@@ -18,6 +20,7 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <HeroUIProvider>
       <MantineProvider>
         <div className="min-h-screen bg-background text-foreground">
           <Router>
@@ -39,6 +42,7 @@ function App() {
           </Router>
         </div>
       </MantineProvider>
+      </HeroUIProvider>
     </ThemeProvider>
   );
 }
