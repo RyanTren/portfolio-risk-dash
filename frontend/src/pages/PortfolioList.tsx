@@ -37,7 +37,7 @@ export default function PortfolioList() {
             <Link to={`/portfolio/${p.id}`}>
               Portfolio Name | {p.name} | {p.positions.length} positions
             </Link>
-            <Button variant="outline" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(p.id)}>Delete</Button>
+            <Button variant="destructive" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(p.id)}>Delete</Button>
           </li>
         ))}
       </ul>

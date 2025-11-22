@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPortfolio, runRisk } from "../api/api";
+import { getPortfolio, deletePortfolio,  runRisk } from "../api/api";
 import type { Portfolio } from "../types/types";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -14,13 +14,14 @@ export default function PortfolioDetail() {
     getPortfolio(Number(id)).then(res => setPortfolio(res.data));
   }, [id]);
 
+  
+
   useEffect(() => {
   getPortfolio(Number(id)).then(res => {
     // console.log("Raw API response:", res.data);
     setPortfolio(res.data);
   });
 }, [id]);
-
 
   const startRisk = async () => {
     const res = await runRisk(Number(id));
@@ -29,6 +30,19 @@ export default function PortfolioDetail() {
   };
 
   if (!portfolio) return <div>Loading...</div>;
+
+
+  const handleDelete = async (id: number) => {
+      if (!window.confirm("Are you sure you want to delete this portfolio?")) return;
+  
+      try {
+        await deletePortfolio(id); // API call
+        setPortfolio(prev => prev?.filter(p => p.id !== id));
+        console.log("Delete Succeded", id);
+      } catch (err) {
+        console.error("Delete failed", err);
+      }
+    };
 
   return (
     <div style={{ padding: 20 }}>
@@ -45,6 +59,7 @@ export default function PortfolioDetail() {
       </ul>
 
       <Button variant="outline" style={{ margin: 10}} onClick={startRisk}>Run Risk</Button>
+      <Button variant="destructive" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(p.id)}>Delete</Button>
     </div>
   );
 }

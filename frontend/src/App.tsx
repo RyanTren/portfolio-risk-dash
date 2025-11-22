@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/ui/theme-provider";
 
 import PortfolioList from "./pages/PortfolioList";
-import PortfolioUpload from "./pages/PortfolioUpload";
+import PortfolioUpload from "./components/ui/PortfolioUpload";
 import PortfolioDetail from "./pages/PortfolioDetail";
 import RiskResultPage from "./pages/RiskResultPage";
 import RunRisk from "./pages/RunRisk";
