@@ -119,23 +119,27 @@
 
 body{
   margin: 0;
+  font-family: 'DM Sans', sans-serif;
 }
 
 
 h1{
   text-align: center;
-  font-size: 4.2em;
+  font-size: 3.2em;
   line-height: 1.1;
+  font-family: 'Inter', sans-serif;
 }
 
 h2{
   font-size: 3.2em;
   line-height: 1.1;
+  font-family: 'Inter', sans-serif;
 }
 
 h3{
   font-size: 2.2em;
   line-height: 1.1;
+  font-family: 'Inter', sans-serif;
 }
 
 a {
@@ -143,9 +147,11 @@ a {
   color: var(--primary);
   text-decoration: inherit;
   transition: color 0.25s;
+  font-family: 'Inter', sans-serif;
 }
 a:hover {
   color: darken(var(--primary), 10%);
+  font-family: 'Inter', sans-serif;
 }
 
 button {
@@ -158,6 +164,7 @@ button {
   background-color: var(--card);
   cursor: pointer;
   transition: border-color 0.25s;
+  font-family: 'Inter', sans-serif;
 }
 button:hover {
   border-color: var(--primary);

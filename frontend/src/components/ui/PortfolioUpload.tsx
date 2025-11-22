@@ -5,6 +5,11 @@ import { Input } from "./input";
 import { Label } from "./label";
 import { ArrowUpFromLine } from "lucide-react";
 
+import { DropzoneButton } from "../../components/ui/DropzoneButton";
+
+import "../../styles/globals.css";
+
+
 export default function PortfolioUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState("");
@@ -43,12 +48,10 @@ export default function PortfolioUpload() {
         </div>
 
         <div>
-          <Label htmlFor="portfolioFile">Portfolio File</Label>
-          <Input
-            id="portfolioFile"
-            type="file"
-            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          />
+          <Label htmlFor="portfolioFile" >Portfolio File</Label>
+          <div>
+            <DropzoneButton onFileSelect={(file) => setFile(file)} />
+          </div>
         </div>
 
         <Button type="submit" variant="outline" className="flex items-center gap-2">

@@ -1,15 +1,20 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import "../styles/globals.css";
 
 const data = [
-  { name: "Jan", value: 4000 },
-  { name: "Feb", value: 3000 },
-  { name: "Mar", value: 5000 },
+  { name: "Jan", value: 32917 },
+  { name: "Feb", value: 14917 },
+  { name: "Mar", value: 61917 },
+  { name: "Apr", value: 144917 },
+  { name: "May", value: 8917 },
+  { name: "Jun", value: 31917 },
+  { name: "Jul", value: 184917 },
 ];
 
 export default function DashboardPreview() {
   return (
     <div className="w-full max-w-4xl mx-auto my-16 px-4">
-      <h2 className="text-2xl font-bold mb-4 text-center">Portfolio Risk Trend</h2>
+      <h3 className="text-2xl font-bold mb-10 text-center">Predict Loss and Mitigate Risk.</h3>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <XAxis dataKey="name" />

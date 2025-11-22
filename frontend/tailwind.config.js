@@ -18,6 +18,10 @@ module.exports = {
         border: 'var(--border)',
         ring: 'var(--ring)',
       },
+      fontFamily:{
+        sans: ['Inter', 'sans-serif'],
+        display: ['DM Sans', 'sans-serif'],
+      }
     },
   },
   plugins: [
