@@ -81,19 +81,22 @@ pgsql
 
 * Connect frontend to Step 1/2 backend.
 
-[] Step 4 — Visualization & UX
+[x] Step 4 — Visualization & UX
 
 * Add charts (Recharts), tables (ag-Grid or MUI DataGrid), scenario editor UI, pagination/virtualization.
 
-[] Step 5 — Asynchrony & job orchestration
+[ ] Step 5 — Asynchrony & job orchestration
 
 * Use background jobs (Hangfire or Azure WebJobs) or a message queue pattern to run calculations asynchronously.
 * Add job status + websockets (SignalR) or polling.
 
-[] Step 6 — Tests, CI, small deployment to Azure
+[ ] Step 6 — Tests, CI, small deployment to Azure
 
 * Unit and integration tests, GitHub Actions CI, optional deploy to Azure App Service + Azure SQL (or free tier).
 
-[] Stretch features
+[ ] Stretch features
 
 * Monte Carlo engine, caching (Redis), role-based security (Azure AD), multi-tenant support.
+
+## Any Future Implementations
+

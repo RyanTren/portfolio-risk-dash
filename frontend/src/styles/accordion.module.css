@@ -1,0 +1,39 @@
+.wrapper {}
+
+/* Fully isolated element styles */
+.item {
+  border-bottom: 1px solid hsl(0 0% 85%);
+}
+
+.trigger {
+  padding: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.trigger:focus {
+  outline: none;
+}
+
+.chevron {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.open .chevron {
+  transform: rotate(180deg);
+}
+
+.content {
+  font-size: 14px;
+  color: #666;
+  padding: 0 0 12px 0;
+}

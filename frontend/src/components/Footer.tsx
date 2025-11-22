@@ -4,8 +4,8 @@ import "../styles/globals.css";
 
 export default function Footer() {
   return (
-    <footer className="py-2 bg-background text-foreground border-t-1 border-border">
-      <div className="container mx-auto px-2">
+    <footer className="py-4 bg-background text-foreground border-t border-border">
+      <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <p className="text-sm text-muted-foreground">
@@ -15,10 +15,10 @@ export default function Footer() {
           {/* Social Links */}
           <div className="flex gap-2">
             <Button asChild variant="ghost" size="icon">
-              <a 
-                href="https://github.com/RyanTren" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://github.com/RyanTren"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="GitHub"
               >
                 <Github className="w-5 h-5" />
@@ -26,10 +26,10 @@ export default function Footer() {
             </Button>
 
             <Button asChild variant="ghost" size="icon">
-              <a 
-                href="https://www.linkedin.com/in/ryantren/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.linkedin.com/in/ryantren/"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
@@ -37,10 +37,10 @@ export default function Footer() {
             </Button>
 
             <Button asChild variant="ghost" size="icon">
-              <a 
-                href="https://instagram.com/uohto" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://instagram.com/uohto"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
@@ -48,6 +48,11 @@ export default function Footer() {
             </Button>
           </div>
         </div>
+
+        {/* Disclaimer */}
+        <p className="text-[10px] text-muted-foreground opacity-60 text-center mt-3">
+          Educational demo only. Not financial advice.
+        </p>
       </div>
     </footer>
   );

@@ -14,7 +14,11 @@ import Hero from "../components/Hero";
 import DashboardPreview from "../components/Chart";
 import { Safari } from "../components/ui/safari";
 import { AnimatedListHome } from "../components/ui/animated-list-home"; 
+import { Faq } from "../components/ui/faq";
 // import RiskTable from "../components/RiskTable";
+
+import HeroCardUI from "../components/ui/HeroCardUI";
+
 
 import { BentoCard, BentoGrid } from "../components/ui/bento-grid"
 
@@ -99,6 +103,9 @@ export default function HomePage() {
       {/* <RiskTable /> */}
 
       {/* Info sections */}
+      <HeroCardUI />
+       
+
       <div className="space-y-8">
         <div>
           <div style={{textAlign: "center"}}>
@@ -127,10 +134,7 @@ export default function HomePage() {
           <Safari className="w-full max-w-6xl mx-auto aspect-video mt-4"  url="/ai-insights" imageSrc="https://placehold.co/1200x750?text=Hello+World"  />
         </div>
 
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Frequently asked questions</h3>
-          <p>**Disclaimer** AI-generated outputs are for educational use only and are not verified financial advice.</p>
-        </div>
+        <Faq ></Faq>
       </div>
     </div>
   );
