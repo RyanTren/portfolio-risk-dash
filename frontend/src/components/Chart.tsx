@@ -14,7 +14,6 @@ const data = [
 export default function DashboardPreview() {
   return (
     <div className="w-full max-w-4xl mx-auto my-16 px-4">
-      <h3 className="text-2xl font-bold mb-10 text-center">Predict Loss and Mitigate Risk.</h3>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <XAxis dataKey="name" />

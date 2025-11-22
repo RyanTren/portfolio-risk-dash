@@ -4,8 +4,8 @@ import "../styles/globals.css";
 
 export default function Footer() {
   return (
-    <footer className="py-6 bg-background text-foreground border-t border-border">
-      <div className="container mx-auto px-4">
+    <footer className="py-2 bg-background text-foreground border-t-1 border-border">
+      <div className="container mx-auto px-2">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <p className="text-sm text-muted-foreground">

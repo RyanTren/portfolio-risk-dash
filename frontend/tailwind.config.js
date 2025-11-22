@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}"
@@ -25,7 +26,7 @@ module.exports = {
     },
   },
   plugins: [
-    require(tailwindcss-animate),
+    require('tailwindcss-animate'),
     plugin(function({ addVariant }) {
       addVariant("dark", "&:is(.dark *)");
     }),

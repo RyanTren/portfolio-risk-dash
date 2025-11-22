@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { ArrowRightIcon } from "@radix-ui/react-icons"
 import { cn } from "../../../lib/utils"
-import { Button } from "../../components/ui/button"
+import { Button } from "./button"
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
   children: ReactNode
@@ -47,11 +47,11 @@ const BentoCard = ({
     className={cn(
       "group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-xl",
       // light styles
-      "bg-background border border-gray-200 [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
-      // dark styles - thinner white outline and glow shadow
-      "dark:bg-background dark:border-gray-700 dark:shadow-[0_0_15px_2px_rgba(180,180,180,0.08)]",
-      // hover effect for dark mode
-      "dark:hover:shadow-[0_0_25px_4px_rgba(200,200,200,0.12)]",
+      "bg-background border border-gray-200 shadow-md",
+      // dark styles - with !important for testing
+      "dark:!bg-gray-900 dark:!border-white-100/70 dark:!shadow-gray-900/20 shadow-md shadow-white-500/50",
+      // hover effects
+      "hover:shadow-lg hover:scale-[1.02] dark:hover:!border-white/40 dark:hover:!bg-gray-800/50",
       "transition-all duration-300",
       className
     )}
@@ -61,7 +61,7 @@ const BentoCard = ({
     <div className="p-4">
       <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-1 transition-all duration-300 lg:group-hover:-translate-y-10">
         <Icon className="h-8 w-8 origin-left transform-gpu text-neutral-700 dark:text-white transition-all duration-300 ease-in-out group-hover:scale-75" />
-        <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
+        <h3 className="text-xl font-semibold text-neutral-700 dark:text-white-500">
           {name}
         </h3>
         <p className="max-w-lg text-neutral-400">{description}</p>
@@ -104,5 +104,4 @@ const BentoCard = ({
     <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
   </div>
 )
-
 export { BentoCard, BentoGrid }

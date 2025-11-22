@@ -9,9 +9,11 @@ import {
   InputIcon,
 } from "@radix-ui/react-icons"
 
-// import "../styles/globals.css"
+import "../styles/globals.css"
 import Hero from "../components/Hero";
 import DashboardPreview from "../components/Chart";
+import { Safari } from "../components/ui/safari";
+import { AnimatedListHome } from "../components/ui/animated-list-home"; 
 // import RiskTable from "../components/RiskTable";
 
 import { BentoCard, BentoGrid } from "../components/ui/bento-grid"
@@ -71,10 +73,7 @@ export default function HomePage() {
       <Hero />
 
       <div className="space-y-8">
-        <div>
           <h2 className="mt-10 text-2xl font-regular mb-2">Gain Financial Literacy <br></br> No Gimmicks</h2>
-          <p>Understand, measure, and monitor portfolio risk using modern quantitative methods and real-time AI explanations.</p>
-        </div>
       </div>
 
       {/* Bento Grid with features */}
@@ -85,23 +84,47 @@ export default function HomePage() {
       </BentoGrid>
 
       {/* Other sections */}
-      <DashboardPreview />
+      <h3 className="pt-10 text-2xl font-medium mb-10 text-center">Predict Loss and Mitigate Risk.</h3>
+      <div className="pb-10 flex gap-1 flex-col lg:flex-row">
+        <div className="flex-1">
+          <DashboardPreview />
+        </div>
+        <div className="flex-1">
+          <AnimatedListHome />
+        </div>
+      </div>
+
+
+
       {/* <RiskTable /> */}
 
       {/* Info sections */}
       <div className="space-y-8">
         <div>
-          <h3 className="text-xl font-semibold mb-2">How To</h3>
+          <div style={{textAlign: "center"}}>
+            <h3 style={{textShadow: "black-500"}} className="text-3xl font-medium mb-2 ta-center">Calculate risk in 3 steps</h3>
+            <h5 className="text-lg font-light mb-2">Seamless user experience with clean, beautiful <br></br>data visualizations.</h5>
+          </div>
+
           <ol className="list-decimal list-inside space-y-1">
-            <li>Upload/Connect your portfolio.</li>
-            <li>Run a risk calculation and review your dashboard (VaR, Stress Loss, exposure heatmap).</li>
+            <li>
+              <a className="text-blue-600 underline underline-offset-1 after:content-['_↗']" href="/upload">
+                Upload/Connect
+              </a> 
+              your portfolio.
+            </li>
+
+            <li>Run a <a className="text-blue-600  underline underline-offset-1 after:content-['_↗']" href="/run-risk">
+                risk calculation
+              </a> and review your dashboard (VaR, Stress Loss, exposure heatmap).</li>
             <li>Use AI Insights to interpret results in plain language, fast and intuitive.</li>
           </ol>
         </div>
 
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Real-time AI-Insights</h3>
-          <p>Our AI assistant can summarize risk results, explain terminology, and help you explore scenarios. It cannot provide financial recommendations.</p>
+        <div style={{textAlign: "center", marginTop: "4rem", padding: "0 1rem"}}>
+          <h2 style={{padding: "1rem", margin: "1rem"}} className="text-3xl font-medium mb-2">Real-time. <br></br> Specialized AI Insights.</h2>
+          <p className="text-md font-thin mb-2">Summarize risk results, explain terminology, and help you explore scenarios.</p>
+          <Safari className="w-full max-w-6xl mx-auto aspect-video mt-4"  url="/ai-insights" imageSrc="https://placehold.co/1200x750?text=Hello+World"  />
         </div>
 
         <div>
