@@ -144,11 +144,11 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl md:text-7xl font-extrabold mb-6 text-center"
         >
-          <span className="inline-block">
+          <span className="inline-block" style={{ textShadow: "black 3px 3px 10px" }}>
             #1 AI FRM Tool
           </span>
           <br />
-          <span className="bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent inline-block">
+          <span  style={{ filter: "drop-shadow(3px 3px 10px black)" }} className="bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent inline-block" >
             Made Simple
           </span>
         </motion.h1>
@@ -159,6 +159,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-lg md:text-2xl mb-10 text-center max-w-3xl mx-auto text-white/90"
+          style={{ textShadow: "black 1px 1px 2px" }}
         >
           Analyze portfolio risk, run stress test simulations in real-time, and understand exposures through modern analytics and AI-assistance.
         </motion.p>
@@ -178,16 +179,16 @@ export default function Hero() {
           >
             <Button
               onClick={() => navigate('/upload')}
-              className="relative px-8 py-4 bg-gradient-to-r from-green-400 to-green-700 hover:from-green-800 hover:to-grenn-900 text-white rounded-full font-regular text-lg ring-1 hover:ring-2 hover:ring-white-400/70 transition-all duration-300 flex items-center gap-2 overflow-hidden border-0"
+              className="relative px-8 py-4 bg-gradient-to-r from-green-400 to-green-700 hover:from-green-700 hover:to-grenn-900 text-white rounded-full font-semibold text-md ring-1 hover:ring-1 hover:ring-white-400/20 transition-all duration-400 flex items-center overflow-hidden"
             >
               {/* Animated gradient overlay */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent"
                 animate={{
                   x: ['-200%', '200%'],
                 }}
                 transition={{
-                  duration: 3,
+                  duration: 5,
                   repeat: Infinity,
                   ease: "linear"
                 }}
@@ -201,7 +202,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, ease: "easeInOut" }}
               />
               
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center gap-2 font-semibold">
                 Get Started
                 <Zap className="w-5 h-5" fill="currentColor" />
               </span>
@@ -255,7 +256,9 @@ export default function Hero() {
             key={i}
             className="absolute w-2 h-2 bg-white/20 rounded-full"
             style={{
+              // eslint-disable-next-line react-hooks/purity
               left: `${Math.random() * 100}%`,
+              // eslint-disable-next-line react-hooks/purity
               top: `${Math.random() * 100}%`,
             }}
             animate={{
@@ -263,8 +266,10 @@ export default function Hero() {
               opacity: [0.2, 0.5, 0.2],
             }}
             transition={{
+              // eslint-disable-next-line react-hooks/purity
               duration: 3 + Math.random() * 2,
               repeat: Infinity,
+              // eslint-disable-next-line react-hooks/purity
               delay: Math.random() * 2,
             }}
           />

@@ -81,7 +81,7 @@ const Faq = ({
   <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.reset}>
-        <h1 style={{textShadow: "green 0.5px 0.5px 2px"}} className={styles.heading}>{heading}</h1>
+        <h1 style={{ textShadow: "black 0.5px 0.5px 1px" }} className={styles.heading}>{heading}</h1>
         <Accordion type="single" collapsible>
           {items.map((item, index) => (
             <AccordionItem key={index} value={`item-${index}`}>

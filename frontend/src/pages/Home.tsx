@@ -18,10 +18,6 @@ import { Faq } from "../components/ui/faq";
 // import RiskTable from "../components/RiskTable";
 
 import HeroCard  from "../components/ui/HeroCardUI";
-import { Button } from "@heroui/react";
-
-
-
 import { BentoCard, BentoGrid } from "../components/ui/bento-grid"
 
 const features = [
@@ -31,7 +27,7 @@ const features = [
     description: "Analyze your portfolio with detailed risk metrics and stress tests.",
     href: "/portfolios",
     cta: "Learn more",
-    background: <img className="absolute -top-20 -right-20 opacity-60" />,
+    background: <img className="absolute -top-20 -right-20 opacity-60 " />,
     className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
   },
   {
@@ -79,18 +75,18 @@ export default function HomePage() {
       <Hero />
 
       <div className="space-y-8">
-          <h2 style={{ textShadow: "green 0.5px 0.5px 2px" }} className="mt-10 text-2xl font-regular mb-2">Gain Financial Literacy <br></br> No Gimmicks</h2>
+          <h2 style={{ textShadow: "black 0.5px 0.5px 1px" }} className="mt-10 text-2xl font-regular mb-2">Gain Financial Literacy <br></br> No Gimmicks</h2>
       </div>
 
       {/* Bento Grid with features */}
-      <BentoGrid className="lg:grid-rows-3">
+      <BentoGrid className="lg:grid-rows-3 ">
         {features.map((feature) => (
           <BentoCard key={feature.name} {...feature} />
         ))}
       </BentoGrid>
 
       {/* Other sections */}
-      <h3 style={{ textShadow: "green 0.5px 0.5px 2px" }} className="pt-10 text-2xl font-medium mb-10 text-center">Predict Loss and Mitigate Risk.</h3>
+      <h3 style={{ textShadow: "black 0.5px 0.5px 1px" }} className="pt-10 text-2xl font-medium mb-10 text-center">Predict Loss and Mitigate Risk.</h3>
       <div className="pb-10 flex gap-1 flex-col lg:flex-row">
         <div className="flex-1">
           <DashboardPreview />
@@ -108,7 +104,7 @@ export default function HomePage() {
       <div className="space-y-8">
         <div style={{ textAlign: "center" }}>
           <h3
-            style={{ textShadow: "green 0.5px 0.5px 2px" }}
+            style={{  textShadow: "black 0.5px 0.5px 1px"  }}
             className="text-3xl font-medium mb-2"
           >
             Calculate risk in 3 steps
@@ -165,13 +161,13 @@ export default function HomePage() {
         </ol>
       </div>
 
-        <div style={{textAlign: "center", marginTop: "4rem", padding: "0 1rem"}}>
-          <h2 style={{padding: "1rem", margin: "1rem", textShadow: "green 0.5px 0.5px 2px"}} className="text-3xl font-medium mb-2">Real-time. <br></br> Specialized AI Insights.</h2>
-          <p className="text-md font-thin mb-2">Summarize risk results, explain terminology, and help you explore scenarios.</p>
-          <Safari className="w-full max-w-6xl mx-auto aspect-video mt-4"  url="/ai-insights" imageSrc="https://placehold.co/1200x750?text=Hello+World"  />
-        </div>
-
-        <Faq></Faq>
+      <div style={{textAlign: "center", marginTop: "4rem", padding: "0 1rem"}}>
+        <h2 style={{padding: "1rem", margin: "1rem",  textShadow: "black 0.5px 0.5px 1px" }} className="text-3xl font-medium mb-2">Real-time. <br></br> Specialized AI Insights.</h2>
+        <p className="text-md font-thin mb-2">Summarize risk results, explain terminology, and help you explore scenarios.</p>
+        <Safari className="w-full max-w-6xl mx-auto aspect-video mt-4"  url="/ai-insights" imageSrc="https://placehold.co/1200x750?text=Hello+World"  />
       </div>
+
+      <Faq></Faq>
+    </div>
   );
 }

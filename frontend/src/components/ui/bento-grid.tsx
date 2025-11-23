@@ -49,9 +49,9 @@ const BentoCard = ({
       // light styles
       "bg-background border border-gray-200 shadow-md",
       // dark styles - with !important for testing
-      "dark:!bg-gray-900 dark:!border-white-100/70 dark:!shadow-gray-900/20 shadow-md shadow-white-500/50",
+      "dark:!bg-neutral-900 dark:!border-zinc-900/70 dark:!shadow-gray-500/20 shadow-md shadow-black-500/50 dark:!text-white",
       // hover effects
-      "hover:shadow-lg hover:scale-[1.02] dark:hover:!border-white/40 dark:hover:!bg-gray-800/50",
+      "hover:shadow-lg hover:scale-[1.02] dark:hover:!border-white/40 dark:hover:!bg-white-900/30",
       "transition-all duration-300",
       className
     )}
@@ -61,9 +61,9 @@ const BentoCard = ({
     <div className="p-4">
       <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-1 transition-all duration-300 lg:group-hover:-translate-y-10">
         <Icon className="h-8 w-8 origin-left transform-gpu text-neutral-700 dark:text-white transition-all duration-300 ease-in-out group-hover:scale-75" />
-        <h3 className="text-xl font-semibold text-neutral-700 dark:text-white-500">
+        <h4 className="text-xl font-semibold text-neutral-700 dark:text-white dark:!shadow-gray-500/20">
           {name}
-        </h3>
+        </h4>
         <p className="max-w-lg text-neutral-400">{description}</p>
       </div>
       <div
