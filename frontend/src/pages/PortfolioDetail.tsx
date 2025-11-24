@@ -77,6 +77,19 @@ export default function PortfolioDetail() {
       }
     };
 
+
+  const handleDelete = async (id: number) => {
+      if (!window.confirm("Are you sure you want to delete this portfolio?")) return;
+  
+      try {
+        await deletePortfolio(id); // API call
+        setPortfolio(prev => prev?.filter(p => p.id !== id));
+        console.log("Delete Succeded", id);
+      } catch (err) {
+        console.error("Delete failed", err);
+      }
+    };
+
   return (
     <div style={{ padding: 20 }}>
       <h2 style={{ margin: 10}}>{portfolio.name}</h2>
