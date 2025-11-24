@@ -14,8 +14,6 @@ type AlertColor =
   | "secondary"
   | "warning";
 
-import { Button } from "../components/ui/button";
-
 export default function PortfolioList() {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [alert, setAlert] = useState<{ color: AlertColor; title: string } | null>(null);
