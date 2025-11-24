@@ -1,27 +1,43 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getPortfolio, deletePortfolio,  runRisk } from "../api/api";
 import type { Portfolio } from "../types/types";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { Button } from "../components/ui/button";
+import AlertPopUp  from "../components/ui/alert";
+import { Spinner } from "@heroui/spinner";
+import { AnimatePresence } from "framer-motion";
+
+type AlertColor =
+  | "success"
+  | "danger"
+  | "default"
+  | "primary"
+  | "secondary"
+  | "warning";
 
 export default function PortfolioDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-
-  useEffect(() => {
-    getPortfolio(Number(id)).then(res => setPortfolio(res.data));
-  }, [id]);
-
+  const [alert, setAlert] = useState<{ color: AlertColor; title: string } | null>(null);
   
+  React.useEffect(() => {
+    if (!alert) return;
+
+    const timer = setTimeout(() => {
+      setAlert(null);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [alert]);
 
   useEffect(() => {
-  getPortfolio(Number(id)).then(res => {
-    // console.log("Raw API response:", res.data);
-    setPortfolio(res.data);
-  });
-}, [id]);
+    getPortfolio(Number(id)).then(res => {
+      // console.log("Raw API response:", res.data);
+      setPortfolio(res.data);
+    });
+  }, [id]);
 
   const startRisk = async () => {
     const res = await runRisk(Number(id));
@@ -29,7 +45,7 @@ export default function PortfolioDetail() {
     navigate(`/risk/${jobId}`);
   };
 
-  if (!portfolio) return <div>Loading...</div>;
+  if (!portfolio) return <div><Spinner size="lg"></Spinner> Loading...</div>;
 
 
   const handleDelete = async (id: number) => {
@@ -37,15 +53,33 @@ export default function PortfolioDetail() {
   
       try {
         await deletePortfolio(id); // API call
-        setPortfolio(prev => prev?.filter(p => p.id !== id));
-        console.log("Delete Succeded", id);
-      } catch (err) {
-        console.error("Delete failed", err);
+        // setPortfolio(prev => prev?.filter(p => p.id !== id));
+
+        setAlert({
+          color: "success",
+          title: "Delete successful!",
+        });
+
+        setTimeout(() => {
+          navigate("/portfolios");
+        }, 800);
+        console.log("Delete Succeded", portfolio.id, id);
+      } catch (err: unknown) {
+        const error = err as { response?: { status?: number; data?: unknown } };
+        // console.error("Delete failed", err);
+        setAlert({
+          color: "danger",
+          title: `Delete failed: ${error.response?.status ?? "Unknown"}`,
+        });
       }
     };
 
   return (
     <div style={{ padding: 20 }}>
+
+      <AnimatePresence>{alert && <AlertPopUp color={alert.color} title={alert.title} />}</AnimatePresence>
+
+
       <h2 style={{ margin: 10}}>{portfolio.name}</h2>
       <a style={{padding: 12, margin: 15, gap: 10}}>Positions: {portfolio.positions?.length ?? 0}</a>
 
@@ -59,7 +93,7 @@ export default function PortfolioDetail() {
       </ul>
 
       <Button variant="outline" style={{ margin: 10}} onClick={startRisk}>Run Risk</Button>
-      <Button variant="destructive" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(p.id)}>Delete</Button>
+      <Button variant="destructive" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(portfolio.id)}>Delete</Button>
     </div>
   );
 }

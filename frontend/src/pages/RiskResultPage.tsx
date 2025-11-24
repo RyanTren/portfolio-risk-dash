@@ -3,6 +3,7 @@ import { getRiskStatus } from "../api/api";
 import type { RiskResult } from "../types/types";
 import RiskChart from "../components/RiskChart";
 import { useParams } from "react-router-dom";
+import {Spinner} from "@heroui/react";
 
 export default function RiskResultPage() {
   const { id } = useParams();
@@ -21,7 +22,7 @@ export default function RiskResultPage() {
     return () => clearInterval(interval);
   }, [id]);
 
-  if (!result) return <div>Loading...</div>;
+  if (!result) return <div><Spinner size="lg">Loading...</Spinner></div>;
 
   return (
     <div style={{ padding: 20 }}>
