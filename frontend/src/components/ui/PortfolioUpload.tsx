@@ -35,7 +35,12 @@ export default function PortfolioUpload() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file) return setAlert({
+        color: "warning",
+        title: "No file was selected!",
+      });
+    ;
+
 
         try {
       const formData = new FormData();

@@ -62,8 +62,8 @@ const RunRisk = () => {
 
 
     // reset UI
-    setResult(null);
-    setStatus("");
+    // setResult(null);
+    // setStatus("");
   }, [selectedId]);
 
 
