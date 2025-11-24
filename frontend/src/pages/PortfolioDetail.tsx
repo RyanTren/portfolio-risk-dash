@@ -43,9 +43,13 @@ export default function PortfolioDetail() {
     const res = await runRisk(Number(id));
     const jobId = res.data.jobId;
     navigate(`/risk/${jobId}`);
+    setAlert({
+          color: "success",
+          title: "Risk Run Successful!",
+        });
   };
 
-  if (!portfolio) return <div><Spinner size="lg"></Spinner> Loading...</div>;
+  if (!portfolio) return <div style={{alignItems: "center", alignContent: "center", padding: 100, margin: 100,}}><Spinner size="lg" /> Loading...</div>;
 
 
   const handleDelete = async (id: number) => {
@@ -55,14 +59,13 @@ export default function PortfolioDetail() {
         await deletePortfolio(id); // API call
         // setPortfolio(prev => prev?.filter(p => p.id !== id));
 
+        setTimeout(() => {
+          navigate("/portfolios");
+        }, 800);
         setAlert({
           color: "success",
           title: "Delete successful!",
         });
-
-        setTimeout(() => {
-          navigate("/portfolios");
-        }, 800);
         console.log("Delete Succeded", portfolio.id, id);
       } catch (err: unknown) {
         const error = err as { response?: { status?: number; data?: unknown } };
@@ -76,10 +79,6 @@ export default function PortfolioDetail() {
 
   return (
     <div style={{ padding: 20 }}>
-
-      <AnimatePresence>{alert && <AlertPopUp color={alert.color} title={alert.title} />}</AnimatePresence>
-
-
       <h2 style={{ margin: 10}}>{portfolio.name}</h2>
       <a style={{padding: 12, margin: 15, gap: 10}}>Positions: {portfolio.positions?.length ?? 0}</a>
 
@@ -91,6 +90,8 @@ export default function PortfolioDetail() {
           </li>
         ))}
       </ul>
+
+      <AnimatePresence>{alert && <AlertPopUp color={alert.color} title={alert.title} />}</AnimatePresence>
 
       <Button variant="outline" style={{ margin: 10}} onClick={startRisk}>Run Risk</Button>
       <Button variant="destructive" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(portfolio.id)}>Delete</Button>
