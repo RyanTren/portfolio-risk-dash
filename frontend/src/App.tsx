@@ -1,3 +1,10 @@
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
+
+import {HeroUIProvider} from "@heroui/react";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/ui/theme-provider";
@@ -13,23 +20,29 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Router>
-        <Navbar  />
-        <Routes>
+      <HeroUIProvider>
+      <MantineProvider>
+        <div className="min-h-screen bg-background text-foreground">
+          <Router>
+            <Navbar  />
+            <Routes>
 
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/portfolios" element={<PortfolioList />} />
-          <Route path="/upload" element={<PortfolioUpload />} />
+              <Route path="/" element={<HomePage />}></Route>
+              <Route path="/portfolios" element={<PortfolioList />} />
+              <Route path="/upload" element={<PortfolioUpload />} />
 
-          <Route path="/portfolio/:id" element={<PortfolioDetail />} />
+              <Route path="/portfolio/:id" element={<PortfolioDetail />} />
 
-          <Route path="/risk/:id" element={<RiskResultPage />} />
+              <Route path="/risk/:id" element={<RiskResultPage />} />
 
-          <Route path="run-risk" element={<RunRisk/>}></Route>
+              <Route path="run-risk" element={<RunRisk/>}></Route>
 
-        </Routes>
-        <Footer />
-      </Router>
+            </Routes>
+            <Footer />
+          </Router>
+        </div>
+      </MantineProvider>
+      </HeroUIProvider>
     </ThemeProvider>
   );
 }

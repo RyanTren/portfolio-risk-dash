@@ -1,76 +1,173 @@
-// import { useEffect, useState } from "react";
-// import { Button } from "../components/ui/button";
-// import { Card, CardContent, CardTitle } from "../components/ui/card";
-// import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-
-// import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
+import {
+  BellIcon,
+  CalendarIcon,
+  FileTextIcon,
+  GlobeIcon,
+  InputIcon,
+} from "@radix-ui/react-icons"
+
 import "../styles/globals.css"
 import Hero from "../components/Hero";
-import Features from "../components/HighlightCards";
 import DashboardPreview from "../components/Chart";
-import RiskTable from "../components/RiskTable";
+import { Safari } from "../components/ui/safari";
+import { AnimatedListHome } from "../components/ui/animated-list-home"; 
+import { Faq } from "../components/ui/faq";
+// import RiskTable from "../components/RiskTable";
 
-// const data = [
-//   { name: "Jan", value: 4000 },
-//   { name: "Feb", value: 3000 },
-//   { name: "Mar", value: 5000 },
-// ];
+import HeroCard  from "../components/ui/HeroCardUI";
+import { BentoCard, BentoGrid } from "../components/ui/bento-grid"
 
-// const columnDefs = [
-//   { headerName: "Asset", field: "asset" },
-//   { headerName: "Exposure", field: "exposure" },
-//   { headerName: "VaR", field: "var" },
-// ];
-
-// const rowData = [
-//   { asset: "AAPL", exposure: 50000, var: 2500 },
-//   { asset: "GOOG", exposure: 40000, var: 2000 },
-//   { asset: "TSLA", exposure: 30000, var: 1800 },
-// ];
+const features = [
+  {
+    Icon: FileTextIcon,
+    name: "Portfolio Analysis",
+    description: "Analyze your portfolio with detailed risk metrics and stress tests.",
+    href: "/portfolios",
+    cta: "Learn more",
+    background: <img className="absolute -top-20 -right-20 opacity-60 " />,
+    className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
+  },
+  {
+    Icon: InputIcon,
+    name: "AI Insights",
+    description: "Get AI-assisted explanations of risk results in plain language.",
+    href: "/run-risk",
+    cta: "Learn more",
+    background: <img className="absolute -top-20 -right-20 opacity-60" />,
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+  },
+  {
+    Icon: GlobeIcon,
+    name: "Visual Analytics",
+    description: "Explore your exposures with heatmaps, charts, and dashboards.",
+    href: "/",
+    cta: "Learn more",
+    background: <img className="absolute -top-20 -right-20 opacity-60" />,
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
+  },
+  {
+    Icon: CalendarIcon,
+    name: "Historical Tracking",
+    description: "Track portfolio performance and risk metrics over time.",
+    href: "/",
+    cta: "Learn more",
+    background: <img className="absolute -top-20 -right-20 opacity-60" />,
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
+  },
+  {
+    Icon: BellIcon,
+    name: "Risk Alerts",
+    description: "Get notified when portfolio risk exceeds your defined thresholds.",
+    href: "/",
+    cta: "Learn more",
+    background: <img className="absolute -top-20 -right-20 opacity-60" />,
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
+  },
+]
 
 export default function HomePage() {
-return(
-  <div className="page flex flex-col"> 
-      {/* add a hero section here */}
+  return(
+    <div className="page flex flex-col gap-12 p-8"> 
+      {/* Hero Section */}
       <Hero />
-      <Features />
-      <DashboardPreview />
-      <RiskTable />
 
-      
-    <div>
-      <h2>Purpose</h2>
-      <p>Analyze portfolio risk, run stress tests, and understand exposures through modern analytics and AI-assisted explanations.</p>
+      <div className="space-y-8">
+          <h2 style={{ textShadow: "black 0.5px 0.5px 1px" }} className="mt-10 text-2xl font-regular mb-2">Gain Financial Literacy <br></br> No Gimmicks</h2>
+      </div>
 
+      {/* Bento Grid with features */}
+      <BentoGrid className="lg:grid-rows-3 ">
+        {features.map((feature) => (
+          <BentoCard key={feature.name} {...feature} />
+        ))}
+      </BentoGrid>
+
+      {/* Other sections */}
+      <h3 style={{ textShadow: "black 0.5px 0.5px 1px" }} className="pt-10 text-2xl font-medium mb-10 text-center">Predict Loss and Mitigate Risk.</h3>
+      <div className="pb-10 flex gap-1 flex-col lg:flex-row">
+        <div className="flex-1">
+          <DashboardPreview />
+        </div>
+        <div className="flex-1">
+          <AnimatedListHome />
+        </div>
+      </div>
+
+
+
+      {/* <RiskTable /> */}
+
+      {/* Info sections */}
+      <div className="space-y-8">
+        <div style={{ textAlign: "center" }}>
+          <h3
+            style={{  textShadow: "black 0.5px 0.5px 1px"  }}
+            className="text-3xl font-medium mb-2"
+          >
+            Calculate risk in 3 steps
+          </h3>
+          <h5 className="text-lg font-light mb-2">
+            Seamless user experience with clean, beautiful <br />
+            data visualizations.
+          </h5>
+        </div>
+
+        {/* Horizontal container */}
+        <ol className="flex justify-center space-x-8 list-decimal list-inside">
+          <li className="flex flex-col items-center">
+            <HeroCard
+              placeImage="https://heroui.com/images/hero-card.jpeg"
+              footerText={
+                <a
+                  className="text-blue-600 underline underline-offset-1 after:content-['_↗']"
+                  href="/upload"
+                >
+                  Upload/Connect your portfolio
+                </a>
+              }
+            />
+          </li>
+
+          <li className="flex flex-col items-center">
+            <HeroCard
+              placeImage="https://heroui.com/images/hero-card.jpeg"
+              footerText={
+                <a
+                  className="text-blue-600 underline underline-offset-1 after:content-['_↗']"
+                  href="/run-risk"
+                >
+                  Run risk calculation and review your dashboard
+                </a>
+              }
+            />
+          </li>
+
+          <li className="flex flex-col items-center">
+            <HeroCard
+              placeImage="https://heroui.com/images/hero-card.jpeg"
+              footerText={
+                <a
+                className="text-blue-600 underline underline-offset-1 after:content-['_↗']"
+                href="/ai-insights"
+              >
+                Get AI Insights in plain language, fast and intuitive
+                </a>
+              }
+            />
+          </li>
+        </ol>
+      </div>
+
+      <div style={{textAlign: "center", marginTop: "4rem", padding: "0 1rem"}}>
+        <h2 style={{padding: "1rem", margin: "1rem",  textShadow: "black 0.5px 0.5px 1px" }} className="text-3xl font-medium mb-2">Real-time. <br></br> Specialized AI Insights.</h2>
+        <p className="text-md font-thin mb-2">Summarize risk results, explain terminology, and help you explore scenarios.</p>
+        <Safari className="w-full max-w-6xl mx-auto aspect-video mt-4"  url="/ai-insights" imageSrc="https://placehold.co/1200x750?text=Hello+World"  />
+      </div>
+
+      <Faq></Faq>
     </div>
-
-    <div>
-      <h3>How To</h3>
-      
-        <li>
-          <p>1. Upload or select a portfolio.</p>
-          <p>2. Run a risk calculation (VaR, Stress Loss, exposure heatmap).</p>
-          <p>3. Use AI Insights to interpret results in plain language.</p>
-        </li>
-    </div>
-
-    <div>
-      <h3>AI-Insights</h3>
-      <p>Our AI assistant can summarize risk results, explain terminology, and help you explore scenarios. It cannot provide financial recommendations.</p>
-
-    </div>
-
-    <div>
-      <h3>Disclaimer</h3>
-      <p>AI-generated outputs are for educational use only and are not verified financial advice.</p>
-
-    </div>
-
-
-    {/* add some cool ui library componenets here */}
-  </div>
-);
+  );
 }

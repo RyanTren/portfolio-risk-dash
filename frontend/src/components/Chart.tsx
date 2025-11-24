@@ -1,9 +1,14 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import "../styles/globals.css";
 
 const data = [
-  { name: "Jan", value: 4000 },
-  { name: "Feb", value: 3000 },
-  { name: "Mar", value: 5000 },
+  { name: "Jan", value: 32917 },
+  { name: "Feb", value: 14917 },
+  { name: "Mar", value: 61917 },
+  { name: "Apr", value: 144917 },
+  { name: "May", value: 8917 },
+  { name: "Jun", value: 31917 },
+  { name: "Jul", value: 184917 },
 ];
 
 export default function DashboardPreview() {

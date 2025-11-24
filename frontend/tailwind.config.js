@@ -1,8 +1,11 @@
+const {heroui} = require('@heroui/theme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}"
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@heroui/theme/dist/components/(button|card|image|ripple|spinner).js"
   ],
   theme: {
     extend: {
@@ -18,12 +21,13 @@ module.exports = {
         border: 'var(--border)',
         ring: 'var(--ring)',
       },
+      fontFamily:{
+        sans: ['Inter', 'sans-serif'],
+        display: ['DM Sans', 'sans-serif'],
+      }
     },
   },
-  plugins: [
-    require(tailwindcss-animate),
-    plugin(function({ addVariant }) {
-      addVariant("dark", "&:is(.dark *)");
-    }),
-  ],
+  plugins: [require('tailwindcss-animate'),plugin(function({ addVariant }) {
+      addVariant("dark","&:is(.dark *)");
+    }),heroui()],
 }
