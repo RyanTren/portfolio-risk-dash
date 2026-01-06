@@ -81,7 +81,7 @@ pgsql
 
 * Connect frontend to Step 1/2 backend.
 
-[x] Step 4 — Visualization & UX
+[x] [Step 4 — Visualization & UX](https://github.com/RyanTren/portfolio-risk-dash/issues/10)
 
 * Add charts (Recharts), tables (ag-Grid or MUI DataGrid), scenario editor UI, pagination/virtualization.
 
@@ -94,9 +94,8 @@ pgsql
 
 * Unit and integration tests, GitHub Actions CI, optional deploy to Azure App Service + Azure SQL (or free tier).
 
+## Any Future Implementations
+
 [ ] Stretch features
 
 * Monte Carlo engine, caching (Redis), role-based security (Azure AD), multi-tenant support.
-
-## Any Future Implementations
-
