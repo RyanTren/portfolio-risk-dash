@@ -158,13 +158,51 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-2xl mb-10 text-center max-w-3xl mx-auto text-white/90"
+          className="text-lg md:text-2xl mb-6 text-center max-w-3xl mx-auto text-white/90"
           style={{ textShadow: "black 1px 1px 2px" }}
         >
           Analyze portfolio risk, run stress test simulations in real-time, and understand exposures through modern analytics and AI-assistance.
         </motion.p>
 
-        
+        {/* Feature Pills with animated borders */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="flex flex-wrap gap-4 justify-center mt-5"
+        >
+          {[
+            { icon: Shield, text: "Enterprise Security" },
+            { icon: TrendingUp, text: "Real-time Analytics" },
+            { icon: Sparkles, text: "AI Insights" }
+          ].map((feature, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.015, y: -5 }}
+              className="relative flex items-center gap-4 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full overflow-hidden"
+            >
+              {/* Animated border gradient */}
+              <motion.div
+                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                }}
+                animate={{
+                  x: ['-200%', '200%'],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: index * 0.3
+                }}
+              />
+              <div className="absolute inset-0 rounded-full border border-white/20" />
+              <feature.icon className="w-4 h-4 relative z-10" />
+              <span className="text-sm font-medium relative z-10">{feature.text}</span>
+            </motion.div>
+          ))}
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -179,7 +217,7 @@ export default function Hero() {
           >
             <Button
               onClick={() => navigate('/upload')}
-              className="relative px-8 py-4 bg-gradient-to-r from-green-400 to-green-700 hover:from-green-700 hover:to-grenn-900 text-white rounded-full font-semibold text-md ring-1 hover:ring-1 hover:ring-white-400/20 transition-all duration-400 flex items-center overflow-hidden"
+              className="relative px-8 py-4 mt-15 bg-gradient-to-r from-green-400 to-green-700 hover:from-green-700 hover:to-grenn-900 text-white rounded-full font-semibold text-md ring-1 hover:ring-1 hover:ring-white-400/20 transition-all duration-400 flex items-center overflow-hidden"
             >
               {/* Animated gradient overlay */}
               <motion.div
@@ -210,45 +248,6 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Feature Pills with animated borders */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-wrap gap-4 justify-center mt-12"
-        >
-          {[
-            { icon: Shield, text: "Enterprise Security" },
-            { icon: TrendingUp, text: "Real-time Analytics" },
-            { icon: Sparkles, text: "AI Insights" }
-          ].map((feature, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.1, y: -5 }}
-              className="relative flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full overflow-hidden"
-            >
-              {/* Animated border gradient */}
-              <motion.div
-                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100"
-                style={{
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
-                }}
-                animate={{
-                  x: ['-200%', '200%'],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: index * 0.3
-                }}
-              />
-              <div className="absolute inset-0 rounded-full border border-white/20" />
-              <feature.icon className="w-4 h-4 relative z-10" />
-              <span className="text-sm font-medium relative z-10">{feature.text}</span>
-            </motion.div>
-          ))}
-        </motion.div>
 
         {/* Floating particles */}
         {[...Array(20)].map((_, i) => (
