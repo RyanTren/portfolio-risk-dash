@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getPortfolios, deletePortfolio } from "../api/api";
-import type { Portfolio } from "../types/types";
+import type { Portfolio } from "../types/portfolio";
 import { Link } from "react-router-dom";
 import AlertPopUp  from "../components/ui/alert";
 import { Button } from "../components/ui/button";

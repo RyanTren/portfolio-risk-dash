@@ -2,8 +2,8 @@
 .env*
 
 # .NET build folders
-bin/
-obj/
+/bin/
+/obj/
 
 # Build output artifacts
 *.dll

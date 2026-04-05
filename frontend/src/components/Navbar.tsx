@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { ModeToggle } from "./ui/theme-mode-toggle";
 import { useTheme } from "./ui/theme-provider";
-import logoLight from "../assets/logoLight.svg";
-import logoDark from "../assets/logoDark.svg";
+import logoLight from "../assets/logos/logoLight.svg";
+import logoDark from "../assets/logos/logoDark.svg";
 import "../styles/globals.css"
 import { useEffect, useState } from "react";
 

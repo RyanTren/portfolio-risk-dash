@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getPortfolio, deletePortfolio,  runRisk } from "../api/api";
-import type { Portfolio } from "../types/types";
+import type { Portfolio } from "../types/portfolio";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { Button } from "../components/ui/button";

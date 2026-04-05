@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getRiskStatus } from "../api/api";
-import type { RiskResult } from "../types/types";
+import type { RiskResult } from "../types/risk";
 import RiskChart from "../components/RiskChart";
 import { useParams } from "react-router-dom";
 import {Spinner} from "@heroui/react";

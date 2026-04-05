@@ -8,8 +8,8 @@ import {
 
 import { ChevronDown } from "lucide-react";
 
-import "../../types/types";
-import type { PortfolioSelectProps } from "../../types/types";
+import "../../types/risk";
+import type { PortfolioSelectProps } from "../../types/risk";
 
 export function PortfolioSelect({ portfolios, selectedId, onSelect }: PortfolioSelectProps) {
   const selectedPortfolio = portfolios.find(p => p.id === selectedId);

@@ -8,7 +8,8 @@ import {
 } from "../components/ui/portfolio-dropdown-menu"
 import RiskChart from "../components/RiskChart";
 
-import type { Portfolio, RiskResult} from "../types/types"
+import type { Portfolio} from "../types/portfolio"
+import type { RiskResult } from "../types/risk";
 import { Spinner } from "@heroui/spinner";
 import AlertPopUp  from "../components/ui/alert";
 
