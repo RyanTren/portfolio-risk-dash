@@ -1,15 +1,15 @@
-import { Button } from "./button";
+import { Button } from "../../../components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
+} from "../../../components/ui/dropdown/dropdown-menu";
 
 import { ChevronDown } from "lucide-react";
 
-import "../../types/risk";
-import type { PortfolioSelectProps } from "../../types/risk";
+// import "../../types/risk";
+import type { PortfolioSelectProps } from "../../../types/ui";
 
 export function PortfolioSelect({ portfolios, selectedId, onSelect }: PortfolioSelectProps) {
   const selectedPortfolio = portfolios.find(p => p.id === selectedId);

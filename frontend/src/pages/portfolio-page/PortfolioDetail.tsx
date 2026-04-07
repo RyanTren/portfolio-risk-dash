@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getPortfolio, deletePortfolio,  runRisk } from "../api/api";
-import type { Portfolio } from "../types/portfolio";
+import { getPortfolio, deletePortfolio,  runRisk } from "../../api/api";
+import type { Portfolio } from "../../types/portfolio";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { Button } from "../components/ui/button";
-import AlertPopUp  from "../components/ui/alert";
+import { Button } from "../../components/ui/button";
+import AlertPopUp  from "../../components/ui/alert";
 import { Spinner } from "@heroui/spinner";
 import { AnimatePresence } from "framer-motion";
 

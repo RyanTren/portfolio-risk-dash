@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { IconCloudUpload, IconDownload, IconX } from '@tabler/icons-react';
 import { Button, Group, Text, useMantineTheme } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
-import classes from '../../styles/DropzoneButton.module.css';
+import classes from '../dropdown/DropzoneButton.module.css';
 
 export function DropzoneButton({
   onFileSelect,

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { uploadPortfolio } from "../../api/api";
-import { Button } from "./button";
-import { Input } from "./input";
-import { Label } from "./label";
+import { uploadPortfolio } from "../../../api/api";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
 import { ArrowUpFromLine } from "lucide-react";
-import AlertPopUp  from "../../components/ui/alert";
-import { DropzoneButton } from "../../components/ui/DropzoneButton";
+import AlertPopUp  from "../../../components/ui/alert";
+import { DropzoneButton } from "../../../components/ui/dropdown/DropzoneButton";
 
-import "../../styles/globals.css";
+import "../../../styles/globals.css";
 import { AnimatePresence } from "framer-motion";
 
 type AlertColor =

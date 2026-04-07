@@ -1,17 +1,17 @@
 import React,{ useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-import { Button } from "../components/ui/button"
+import { Button } from "../../components/ui/button"
 
 import { 
   PortfolioSelect 
-} from "../components/ui/portfolio-dropdown-menu"
-import RiskChart from "../components/RiskChart";
+} from "../portfolio-page/components/portfolio-dropdown-menu"
+import RiskChart from "./components/RiskChart";
 
-import type { Portfolio} from "../types/portfolio"
-import type { RiskResult } from "../types/risk";
+import type { Portfolio} from "../../types/portfolio"
+import type { RiskResult } from "../../types/risk";
 import { Spinner } from "@heroui/spinner";
-import AlertPopUp  from "../components/ui/alert";
+import AlertPopUp  from "../../components/ui/alert";
 
 import { AnimatePresence } from "framer-motion";
 

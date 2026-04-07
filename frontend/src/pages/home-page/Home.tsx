@@ -9,16 +9,16 @@ import {
   InputIcon,
 } from "@radix-ui/react-icons"
 
-import "../styles/globals.css"
-import Hero from "../components/Hero";
-import DashboardPreview from "../components/Chart";
-import { Safari } from "../components/ui/safari";
-import { AnimatedListHome } from "../components/ui/animated-list-home"; 
-import { Faq } from "../components/ui/faq";
+import "../../styles/globals.css";
+import Hero from "./components/Hero";
+import DashboardPreview from "../../components/Chart";
+import { Safari } from "../../components/ui/safari";
+import { AnimatedListHome } from "../../components/ui/animated-list/animated-list-home"; 
+import { Faq } from "../../components/ui/faq/faq";
 // import RiskTable from "../components/RiskTable";
 
-import HeroCard  from "../components/ui/HeroCardUI";
-import { BentoCard, BentoGrid } from "../components/ui/bento-grid"
+import HeroCard  from "./components/HeroCardUI";
+import { BentoCard, BentoGrid } from "../../components/ui/bento-grid";
 
 const features = [
   {

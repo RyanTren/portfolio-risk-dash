@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDownIcon } from "lucide-react"
-import styles from "../../styles/accordion.module.css"
+import styles from "../accordion/accordion.module.css"
 
 function Accordion(props: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   return <AccordionPrimitive.Root {...props} className={styles.wrapper} />

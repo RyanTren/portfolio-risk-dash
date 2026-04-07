@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion';
 import { Sparkles, TrendingUp, Shield, Zap } from 'lucide-react';
-import { Button } from "../components/ui/button";
+import { Button } from "../../../components/ui/button";
 
 export default function Hero() {
   const navigate = useNavigate();

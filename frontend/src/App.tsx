@@ -6,14 +6,14 @@ import {HeroUIProvider} from "@heroui/react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { ThemeProvider } from "./components/ui/theme-provider";
+import { ThemeProvider } from "./components/ui/theme/theme-provider";
 
-import PortfolioList from "./pages/PortfolioList";
-import PortfolioUpload from "./components/ui/PortfolioUpload";
-import PortfolioDetail from "./pages/PortfolioDetail";
-import RiskResultPage from "./pages/RiskResultPage";
-import RunRisk from "./pages/RunRisk";
-import HomePage from "./pages/Home";
+import PortfolioList from "./pages/portfolio-page/PortfolioList";
+import PortfolioUpload from "./pages/portfolio-page/components/PortfolioUpload";
+import PortfolioDetail from "./pages/portfolio-page/PortfolioDetail";
+import RiskResultPage from "./pages/risk-page/RiskResultPage";
+import RunRisk from "./pages/risk-page/RunRisk";
+import HomePage from "./pages/home-page/Home";
 import Footer from "./components/Footer";
 
 function App() {

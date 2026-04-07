@@ -3,9 +3,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./accordion";
+} from "../accordion/accordion";
 
-import styles from "../../styles/faq.module.css";
+import styles from "../faq/faq.module.css";
 
 interface FaqItem {
   id: string;

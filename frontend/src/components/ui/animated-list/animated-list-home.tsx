@@ -1,8 +1,8 @@
 "use client"
 
-import { cn } from "../../lib/utils"
-import { AnimatedList } from "../../components/ui/animated-list"
-import "../../styles/globals.css"
+import { cn } from "../../../lib/utils"
+import { AnimatedList } from "../animated-list/animated-list"
+import "../../../styles/globals.css"
 
 interface Item {
   name: string
