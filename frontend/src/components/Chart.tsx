@@ -20,7 +20,7 @@ export default function DashboardPreview() {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Line type="monotone" dataKey="value" stroke="#6366F1" strokeWidth={3} />
+          <Line type="monotone" dataKey="value" stroke="#28df21" strokeWidth={3} />
         </LineChart>
       </ResponsiveContainer>
     </div>
