@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const API = axios.create({
+  // baseURL: import.meta.env.VITE_API_BASE_URL,
   baseURL: "http://localhost:5233",
+  timeout: 10000,
 });
 
 // ===== PORTFOLIOS =====
@@ -9,6 +11,7 @@ export const uploadPortfolio = (formData: FormData) =>
   API.post("/api/portfolio/upload", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+
 
 export const getPortfolios = () =>
   API.get("/api/portfolio/");

@@ -22,7 +22,8 @@ export default function PortfolioDetail() {
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
   const [alert, setAlert] = useState<{ color: AlertColor; title: string } | null>(null);
   
-  React.useEffect(() => {
+  //useEffect for auto-dismiss alert after 3 seconds
+  useEffect(() => {
     if (!alert) return;
 
     const timer = setTimeout(() => {
@@ -32,25 +33,28 @@ export default function PortfolioDetail() {
     return () => clearTimeout(timer);
   }, [alert]);
 
+  // Fetch portfolio details on component mount
   useEffect(() => {
-    getPortfolio(Number(id)).then(res => {
-      // console.log("Raw API response:", res.data);
-      setPortfolio(res.data);
-    });
+    getPortfolio(Number(id))
+      .then(res => setPortfolio(res.data))
+      .catch(() => setAlert({ color: "danger", title: "Failed to load portfolio." }));
   }, [id]);
 
   const startRisk = async () => {
     const res = await runRisk(Number(id));
     const jobId = res.data.jobId;
     navigate(`/risk/${jobId}`);
-    setAlert({
-          color: "success",
-          title: "Risk Run Successful!",
-        });
+    // setAlert({
+    //       color: "success",
+    //       title: "Risk Run Successful!",
+    //     });
   };
 
-  if (!portfolio) return <div style={{alignItems: "center", alignContent: "center", padding: 100, margin: 100,}}><Spinner size="lg" /> Loading...</div>;
-
+  if (!portfolio) return (
+    <div className="flex items-center justify-center p-24 gap-3">
+      <Spinner size="lg" /> Loading...
+    </div>
+  );
 
   const handleDelete = async (id: number) => {
       if (!window.confirm("Are you sure you want to delete this portfolio?")) return;
@@ -59,14 +63,15 @@ export default function PortfolioDetail() {
         await deletePortfolio(id); // API call
         // setPortfolio(prev => prev?.filter(p => p.id !== id));
 
-        setTimeout(() => {
-          navigate("/portfolios");
-        }, 800);
         setAlert({
           color: "success",
           title: "Delete successful!",
         });
-        console.log("Delete Succeded", portfolio.id, id);
+
+        setTimeout(() => {
+          navigate("/portfolios");
+        }, 800);
+        // console.log("Delete Succeded", portfolio.id, id);
       } catch (err: unknown) {
         const error = err as { response?: { status?: number; data?: unknown } };
         // console.error("Delete failed", err);

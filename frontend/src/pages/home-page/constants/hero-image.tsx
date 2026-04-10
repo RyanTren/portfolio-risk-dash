@@ -1,0 +1,1 @@
+export const heroImage = "https://heroui.com/images/hero-card.jpeg";

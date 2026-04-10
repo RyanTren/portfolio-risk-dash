@@ -15,6 +15,7 @@ obj/
 *.db
 *.db-wal
 *.db-shm
+*.json
 
 # Razor/C# build caches
 *.dswa.cache.json

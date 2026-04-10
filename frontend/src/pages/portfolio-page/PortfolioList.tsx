@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getPortfolios, deletePortfolio } from "../../api/api";
 import type { Portfolio } from "../../types/portfolio";
 import { Link } from "react-router-dom";
@@ -18,7 +18,8 @@ export default function PortfolioList() {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [alert, setAlert] = useState<{ color: AlertColor; title: string } | null>(null);
 
-  React.useEffect(() => {
+  // useEffect for auto-dismiss alert after 3 seconds
+  useEffect(() => {
     if (!alert) return;
 
     const timer = setTimeout(() => {
@@ -28,10 +29,11 @@ export default function PortfolioList() {
     return () => clearTimeout(timer);
   }, [alert]);
 
+  // Fetch portfolios on component mount
   useEffect(() => {
-    getPortfolios().then(res => {
-      setPortfolios(res.data);
-    });
+    getPortfolios()
+      .then(res => setPortfolios(res.data))
+      .catch(() => setAlert({ color: "danger", title: "Failed to load portfolios." }));
   }, []);
 
   const handleDelete = async (id: number) => {
@@ -54,6 +56,9 @@ export default function PortfolioList() {
     }
   };
 
+  if (!portfolios || portfolios.length === 0) {
+    return <p>No portfolios found.</p>;
+  }
 
   return (
     <div style={{ padding: 20, margin: 20, gap: 10 }}>
@@ -61,14 +66,24 @@ export default function PortfolioList() {
       <h2>Portfolios</h2>
 
       <ul>
-        {portfolios.map(p => (
-          <li key={p.id}>
-            <Link to={`/portfolio/${p.id}`}>
-              Portfolio Name | {p.name} | {p.positions.length} positions
-            </Link>
-            <Button variant="destructive" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(p.id)}>Delete</Button>
-          </li>
-        ))}
+        {portfolios.length === 0 ? (
+          <p>No portfolios found.</p>
+        ) : (
+          portfolios.map(p => (
+            <li key={p.id}>
+              <Link to={`/portfolio/${p.id}`}>
+                Portfolio Name | {p.name} | {p.positions.length} positions
+              </Link>
+              <Button
+                variant="destructive"
+                style={{ marginLeft: 25, margin: 15, padding: 12 }}
+                onClick={() => handleDelete(p.id)}
+              >
+                Delete
+              </Button>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
