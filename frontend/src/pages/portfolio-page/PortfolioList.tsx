@@ -66,11 +66,19 @@ export default function PortfolioList() {
           portfolios.map(p => (
             <li className="flex flex-col gap-4 border rounded-md p-6 m-1 bg-accent" key={p.id}>
               <Link to={`/portfolio/${p.id}`}>
-                {p.name} <ChartCandlestick className="w-4 h-4" /> Tickers: {p.positions.length}
+                <h3 className="flex items-center gap-2 text-lg font-thin text-shadow-md text-shadow-emerald-500 ">
+                  <ChartCandlestick className="w-6 h-6" />
+                  {p.name}
+                </h3>
+
+                <p className="text-sm text-muted-foreground">
+                  Tickers: {p.positions.length}
+                </p>
               </Link>
+
               <Button
                 variant="destructive"
-                className="relative float-right"
+                className="relative float-right box-shadow-lg"
                 onClick={() => handleDelete(p.id)}
               >
                 Delete

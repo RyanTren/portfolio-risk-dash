@@ -15,7 +15,7 @@ export default function AlertPopUp({ color, title }: AlertPopUpProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.25 }}
-        className="fixed bottom-6 right-6 z-100"
+        className="fixed bottom-6 right-6 z-999999999"
       >
         <Alert color={color} title={title} />
       </motion.div>

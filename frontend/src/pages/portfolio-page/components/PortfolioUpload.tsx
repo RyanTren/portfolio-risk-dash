@@ -90,18 +90,18 @@ export default function PortfolioUpload() {
       </AnimatePresence>
 
       {showDuplicateModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-6 max-w-sm w-full mx-4 shadow-xl flex flex-col gap-4">
-            <h3 className="font-semibold text-lg">Duplicate Portfolio Name</h3>
+        <div className="fixed inset-0 bg-black/85 z-50 flex items-center justify-center transition-opacity duration-500">
+          <div className="bg-white dark:bg-stone-800 rounded-md p-6 max-w-sm w-full mx-4 shadow-xl flex flex-col gap-4 transition-opacity duration-500">
+            <h4 className="font-semibold text-lg">Duplicate Portfolio Name</h4>
             <p className="text-sm text-muted-foreground">
-              A portfolio named <span className="font-medium">"{name}"</span> already exists.
+              A portfolio named <span className="font-bold">"{name}"</span> already exists.
               Do you want to upload anyway?
             </p>
             <div className="flex gap-3 justify-end">
               <Button variant="outline" onClick={() => { setShowDuplicateModal(false); setPendingFormData(null); }}>
                 Cancel
               </Button>
-              <Button onClick={() => { setShowDuplicateModal(false); if (pendingFormData) doUpload(pendingFormData); }}>
+              <Button variant="outline" onClick={() => { setShowDuplicateModal(false); if (pendingFormData) doUpload(pendingFormData); }}>
                 Upload Anyway
               </Button>
             </div>

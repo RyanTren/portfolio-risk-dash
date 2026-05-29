@@ -44,8 +44,10 @@ export default function PortfolioDetail() {
   };
 
   if (!portfolio) return (
-    <div className="flex items-center justify-center p-24 gap-3">
-      <Spinner size="lg" /> Loading...
+    <div className="flex items-center justify-center h-[60vh]">
+      <div className="flex items-center justify-center">
+        <Spinner size="lg" /> Loading...
+      </div>
     </div>
   );
 
