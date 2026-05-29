@@ -21,7 +21,7 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <HeroUIProvider>
       <MantineProvider>
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="bg-background text-foreground">
           <Router>
             <Navbar  />
             <Routes>

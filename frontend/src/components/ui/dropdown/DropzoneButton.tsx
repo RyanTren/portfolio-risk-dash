@@ -24,7 +24,7 @@ export function DropzoneButton({
         accept={[MIME_TYPES.csv]}
         maxSize={30 * 1024 ** 2}
       >
-        <div style={{ pointerEvents: "none" }}>
+        <div className=" mx-auto p-12 rounded-md border-2 border-dashed border-gray-300 cursor-pointer">
           <Group justify="center">
             <Dropzone.Accept>
               <IconDownload size={50} color={theme.colors.blue[6]} stroke={1.5} />
@@ -43,10 +43,9 @@ export function DropzoneButton({
             </Dropzone.Idle>
           </Group>
 
-          <Text ta="center" fw={700} fz="lg" mt="xl">
-            <Dropzone.Accept>Drop files here</Dropzone.Accept>
+          <Text ta="center" fw={700} fz="xl" mt="xl">
+            <Dropzone.Accept >Drop files here</Dropzone.Accept>
             <Dropzone.Reject>CSV file less than 30mb</Dropzone.Reject>
-            <Dropzone.Idle>Drag and Drop Here</Dropzone.Idle>
           </Text>
 
           <Text className={classes.description}>
@@ -62,7 +61,7 @@ export function DropzoneButton({
         radius="xl"
         onClick={() => openRef.current?.()}
       >
-        Select files
+        Select Files
       </Button>
     </div>
   );

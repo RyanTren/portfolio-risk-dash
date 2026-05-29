@@ -5,27 +5,20 @@ import RiskChart from "./components/RiskChart";
 import { useParams } from "react-router-dom";
 import {Spinner} from "@heroui/react";
 import AlertPopUp  from "../../components/ui/alert";
+import { useAlert } from "../../hooks/useAlert";
 import { AnimatePresence } from "framer-motion";
-
-type AlertColor =
-  | "success"
-  | "danger"
-  | "default"
-  | "primary"
-  | "secondary"
-  | "warning";
 
 export default function RiskResultPage() {
   const { id } = useParams();
   const [result, setResult] = useState<RiskResult | null>(null);
-  const [alert, setAlert] = useState<{ color: AlertColor; title: string } | null>(null);
+  const { alert, showAlert } = useAlert();
 
 
   React.useEffect(() => {
     if (!alert) return;
 
     const timer = setTimeout(() => {
-      setAlert(null);
+      showAlert("warning", "Timeout: Risk result may be stale. Please refresh.");
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -39,15 +32,9 @@ export default function RiskResultPage() {
       if (res.data.status === "Completed" || res.data.status === "Failed") {
         clearInterval(interval);
         if (res.data.status === "Completed") {
-          setAlert({
-            color: "success",
-            title: "Risk Run Completed!",
-          });
+          showAlert("success", "Risk Run Completed!");
         } else {
-          setAlert({
-            color: "danger",
-            title: "Risk Run Failed!",
-          });
+          showAlert("danger", "Risk Run Failed!");
         }
       }
     }, 1500);

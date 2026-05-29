@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useAlert } from "../../hooks/useAlert";
 import { getPortfolio, deletePortfolio,  runRisk } from "../../api/api";
 import type { Portfolio } from "../../types/portfolio";
 import { useParams, useNavigate } from "react-router-dom";
@@ -8,26 +9,18 @@ import AlertPopUp  from "../../components/ui/alert";
 import { Spinner } from "@heroui/spinner";
 import { AnimatePresence } from "framer-motion";
 
-type AlertColor =
-  | "success"
-  | "danger"
-  | "default"
-  | "primary"
-  | "secondary"
-  | "warning";
 
 export default function PortfolioDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-  const [alert, setAlert] = useState<{ color: AlertColor; title: string } | null>(null);
+  const { alert, showAlert } = useAlert();
   
   //useEffect for auto-dismiss alert after 3 seconds
   useEffect(() => {
     if (!alert) return;
 
     const timer = setTimeout(() => {
-      setAlert(null);
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -37,8 +30,8 @@ export default function PortfolioDetail() {
   useEffect(() => {
     getPortfolio(Number(id))
       .then(res => setPortfolio(res.data))
-      .catch(() => setAlert({ color: "danger", title: "Failed to load portfolio." }));
-  }, [id]);
+      .catch(() => showAlert("danger", "Failed to load portfolio."));
+  });
 
   const startRisk = async () => {
     const res = await runRisk(Number(id));
@@ -63,11 +56,7 @@ export default function PortfolioDetail() {
         await deletePortfolio(id); // API call
         // setPortfolio(prev => prev?.filter(p => p.id !== id));
 
-        setAlert({
-          color: "success",
-          title: "Delete successful!",
-        });
-
+        showAlert("success", "Delete successful!");
         setTimeout(() => {
           navigate("/portfolios");
         }, 800);
@@ -75,10 +64,7 @@ export default function PortfolioDetail() {
       } catch (err: unknown) {
         const error = err as { response?: { status?: number; data?: unknown } };
         // console.error("Delete failed", err);
-        setAlert({
-          color: "danger",
-          title: `Delete failed: ${error.response?.status ?? "Unknown"}`,
-        });
+        showAlert("danger", `Delete failed: ${error.response?.status ?? "Unknown"}`);
       }
     };
 

@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-
-type AlertColor = "success" | "danger" | "default" | "primary" | "secondary" | "warning";
-export type AlertState = { color: AlertColor; title: string } | null;
+import type { AlertColor, AlertState } from "../types/alert";
 
 export function useAlert(duration = 3000) {
-  const [alert, setAlert] = useState<AlertState>(null);
-
+  const [alert, setAlert] = useState<AlertState | null>(null);
   useEffect(() => {
     if (!alert) return;
-    const timer = setTimeout(() => setAlert(null), duration);
-    return () => clearTimeout(timer);
+      const t = setTimeout(() => setAlert(null), duration);
+    return () => clearTimeout(t);
   }, [alert, duration]);
 
-  return { alert, setAlert };
+const showAlert = (color: AlertColor, title: string) =>
+  setAlert({ color, title });
+return { alert, showAlert };
 }

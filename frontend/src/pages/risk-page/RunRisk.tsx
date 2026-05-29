@@ -12,17 +12,11 @@ import type { Portfolio} from "../../types/portfolio"
 import type { RiskResult } from "../../types/risk";
 import { Spinner } from "@heroui/spinner";
 import AlertPopUp  from "../../components/ui/alert";
+import { useAlert } from "../../hooks/useAlert";
 
 import { AnimatePresence } from "framer-motion";
 
 const RunRisk = () => {
-  type AlertColor =
-  | "success"
-  | "danger"
-  | "default"
-  | "primary"
-  | "secondary"
-  | "warning";
 
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -30,9 +24,7 @@ const RunRisk = () => {
   const [result, setResult] = useState<RiskResult | null>(null);
   const [runCounts, setRunCounts] = useState<Record<number, number>>({});
   const [isRunning, setIsRunning] = useState(false);
-  const [alert, setAlert] = useState<{ color: AlertColor; title: string } | null>(null);
-
-
+  const { alert, showAlert } = useAlert();
   const selectedPortfolio = portfolios.find(p => p.id === selectedId);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -41,7 +33,7 @@ const RunRisk = () => {
       if (!alert) return;
   
       const timer = setTimeout(() => {
-        setAlert(null);
+        showAlert("warning", "Timeout: Risk result may be stale. Please refresh.");
       }, 3000);
   
       return () => clearTimeout(timer);
@@ -71,10 +63,7 @@ const RunRisk = () => {
   const runRisk = async () => {
     if (!selectedId) {
       // alert("No Portfolio was picked. Please select a portfolio.");
-      setAlert({
-        color: "warning",
-        title: "No portfolio was picked. Please select a portfolio.",
-      });
+      showAlert("warning", "No portfolio was picked. Please select a portfolio.");
       setStatus("Pick a portfolio.");
       return;
     }
@@ -83,10 +72,7 @@ const RunRisk = () => {
       const count = runCounts[selectedId] ?? 0;
 
       if (count >= 3) {
-        setAlert({
-          color: "secondary",
-          title: "Limit reached: You can only run risk 3× for this portfolio.",
-        });
+        showAlert("warning", "Limit reached: You can only run risk 3× for this portfolio.");
         setStatus("Limit reached: You can only run risk 3× for this portfolio.");
         return;
       }
@@ -124,10 +110,7 @@ const RunRisk = () => {
         if (r.data.status === "Completed") {
           setIsRunning(false);
           // setStatus("Risk calculation finished.");
-          setAlert({
-          color: "success",
-          title: "Risk calculation finished.",
-        });
+          showAlert("success", "Risk calculation finished.");
           clearInterval(pollingRef.current!);
           pollingRef.current = null;
         }
