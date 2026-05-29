@@ -123,6 +123,16 @@ const RunRisk = () => {
     }
   };
 
+  if (!portfolios || portfolios.length === 0) {
+    return(
+    <div className="flex items-center justify-center h-[60vh]">
+      <p className="text-muted-foreground">
+        No portfolios found.
+      </p>
+    </div>
+    );
+  }
+
   return (
     <div className="page">
       <AnimatePresence>{alert && <AlertPopUp color={alert.color} title={alert.title} />}</AnimatePresence>
