@@ -14,6 +14,7 @@ import PortfolioDetail from "./pages/portfolio-page/PortfolioDetail";
 import RiskResultPage from "./pages/risk-page/RiskResultPage";
 import RunRisk from "./pages/risk-page/RunRisk";
 import HomePage from "./pages/home-page/Home";
+import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
 
 function App() {
@@ -34,7 +35,8 @@ function App() {
 
               <Route path="/risk/:id" element={<RiskResultPage />} />
 
-              <Route path="run-risk" element={<RunRisk/>}></Route>
+              <Route path="/run-risk" element={<RunRisk/>}></Route>
+              <Route path="*" element={<NotFound />} />
 
             </Routes>
             <Footer />

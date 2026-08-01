@@ -1,93 +1,71 @@
-import { useEffect, useState } from "react";
-import { useAlert } from "../../hooks/useAlert";
-import { getPortfolio, deletePortfolio,  runRisk } from "../../api/api";
-import type { Portfolio } from "../../types/portfolio";
-import { useParams, useNavigate } from "react-router-dom";
-
-import { Button } from "../../components/ui/button";
-import AlertPopUp  from "../../components/ui/alert";
-import { Spinner } from "@heroui/spinner";
+import { useNavigate, useParams } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { Spinner } from "@heroui/react";
 
+import { usePortfolio } from "../../hooks/usePortfolio";
+import { useDeletePortfolio } from "../../hooks/useDeletePortfolio";
+import { useAlert } from "../../hooks/useAlert";
+import { runRisk } from "../../api/risk";
+import AlertPopUp from "../../components/ui/alert";
+import { Button } from "../../components/ui/button";
 
 export default function PortfolioDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
+  const portfolioId = Number(id);
+
+  const { portfolio, loading } = usePortfolio(portfolioId);
   const { alert, showAlert } = useAlert();
-  
-  //useEffect for auto-dismiss alert after 3 seconds
-  useEffect(() => {
-    if (!alert) return;
-
-    const timer = setTimeout(() => {
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [alert]);
-
-  // Fetch portfolio details on component mount
-  useEffect(() => {
-    getPortfolio(Number(id))
-      .then(res => setPortfolio(res.data))
-      .catch(() => showAlert("danger", "Failed to load portfolio."));
-  });
+  const { handleDelete } = useDeletePortfolio(showAlert);
 
   const startRisk = async () => {
-    const res = await runRisk(Number(id));
-    const jobId = res.data.jobId;
-    navigate(`/risk/${jobId}`);
-    // setAlert({
-    //       color: "success",
-    //       title: "Risk Run Successful!",
-    //     });
+    const res = await runRisk(portfolioId);
+    navigate(`/risk/${res.data.jobId}`);
   };
 
-  if (!portfolio) return (
-    <div className="flex items-center justify-center h-[60vh]">
-      <div className="flex items-center justify-center">
-        <Spinner size="lg" /> Loading...
+  if (loading || !portfolio) {
+    return (
+      <div className="flex items-center justify-center h-[60vh]">
+        <div className="flex items-center justify-center">
+          <Spinner size="lg" /> Loading...
+        </div>
       </div>
-    </div>
-  );
-
-  const handleDelete = async (id: number) => {
-      if (!window.confirm("Are you sure you want to delete this portfolio?")) return;
-  
-      try {
-        await deletePortfolio(id); // API call
-        // setPortfolio(prev => prev?.filter(p => p.id !== id));
-
-        showAlert("success", "Delete successful!");
-        setTimeout(() => {
-          navigate("/portfolios");
-        }, 800);
-        // console.log("Delete Succeded", portfolio.id, id);
-      } catch (err: unknown) {
-        const error = err as { response?: { status?: number; data?: unknown } };
-        // console.error("Delete failed", err);
-        showAlert("danger", `Delete failed: ${error.response?.status ?? "Unknown"}`);
-      }
-    };
+    );
+  }
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2 style={{ margin: 10}}>{portfolio.name}</h2>
-      <a style={{padding: 12, margin: 15, gap: 10}}>Positions: {portfolio.positions?.length ?? 0}</a>
+    <div className="max-w-4xl mx-auto px-6 py-10">
+      <h2 className="text-3xl font-semibold mb-4">{portfolio.name}</h2>
+      <p className="text-muted-foreground mb-6">
+        Positions: {portfolio.positions?.length ?? 0}
+      </p>
 
-      <h3 style={{margin: 20}}>Tickers:</h3>
-      <ul style={{margin: 20}}>
-        {portfolio.positions?.map(pos => (
-          <li key={pos.id}>
+      <h3 className="text-xl font-medium mb-3">Tickers:</h3>
+      <ul className="space-y-2 mb-8">
+        {portfolio.positions?.map((pos) => (
+          <li key={pos.id} className="text-sm">
             {pos.ticker} — {pos.quantity} shares @ ${pos.price}
           </li>
         ))}
       </ul>
 
-      <AnimatePresence>{alert && <AlertPopUp color={alert.color} title={alert.title} />}</AnimatePresence>
+      <AnimatePresence>
+        {alert && <AlertPopUp color={alert.color} title={alert.title} />}
+      </AnimatePresence>
 
-      <Button variant="outline" style={{ margin: 10}} onClick={startRisk}>Run Risk</Button>
-      <Button variant="destructive" style={{marginLeft: 25, margin: 15, padding: 12}} onClick={() => handleDelete(portfolio.id)}>Delete</Button>
+      <div className="flex gap-3">
+        <Button variant="outline" onClick={startRisk}>
+          Run Risk
+        </Button>
+        <Button
+          variant="destructive"
+          onClick={() =>
+            handleDelete(portfolio.id, () => navigate("/portfolios"))
+          }
+        >
+          Delete
+        </Button>
+      </div>
     </div>
   );
 }

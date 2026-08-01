@@ -1,31 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  // baseURL: import.meta.env.VITE_API_BASE_URL,
-  baseURL: "http://localhost:5233",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
 });
 
-// ===== PORTFOLIOS =====
-export const uploadPortfolio = (formData: FormData) =>
-  API.post("/api/portfolio/upload", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-
-
-export const getPortfolios = () =>
-  API.get("/api/portfolio/");
-
-export const getPortfolio = (id: number) =>
-  API.get(`/api/portfolio/${id}`);
-
-export const deletePortfolio = (id: number) =>
-  API.delete(`/api/portfolio/${id}`);
-
-
-// ===== RISK JOBS =====
-export const runRisk = (portfolioId: number) =>
-  API.post("/risk/run", { portfolioId });
-
-export const getRiskStatus = (id: number) =>
-  API.get(`/risk/status/${id}`);
+export default API;

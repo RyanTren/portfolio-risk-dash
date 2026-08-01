@@ -1,4 +1,5 @@
 export interface RiskResult {
+  jobId?: number;
   riskId: number;
   portfolioId: number;
   timestamp: string;

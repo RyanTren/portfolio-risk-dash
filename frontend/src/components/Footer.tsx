@@ -1,6 +1,6 @@
 import { Github, Linkedin, Instagram } from "lucide-react";
 import { Button } from "../components/ui/button";
-import "../styles/globals.css";
+
 
 export default function Footer() {
   return (

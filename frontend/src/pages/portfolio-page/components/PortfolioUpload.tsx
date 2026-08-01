@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { uploadPortfolio, getPortfolios } from "../../../api/api";
+import { useNavigate } from "react-router-dom";
+import { uploadPortfolio, getPortfolios } from "../../../api/portfolio";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
@@ -7,11 +8,11 @@ import { ArrowUpFromLine, Loader2 } from "lucide-react";
 import AlertPopUp from "../../../components/ui/alert";
 import { useAlert } from "../../../hooks/useAlert";
 import { DropzoneButton } from "../../../components/ui/dropdown/DropzoneButton";
-import "../../../styles/globals.css";
 import { AnimatePresence } from "framer-motion";
 
 
 export default function PortfolioUpload() {
+  const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState("");
   const { alert, showAlert } = useAlert();
@@ -21,13 +22,6 @@ export default function PortfolioUpload() {
   const redirectRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   React.useEffect(() => {
-    if (!alert) return;
-    // const timer = setTimeout(() => showAlert(null), 3000);
-    // return () => clearTimeout(timer);
-  }, [alert]);
-
-  // clear redirect timer if component unmounts mid-flight
-  React.useEffect(() => {
     return () => {
       if (redirectRef.current) clearTimeout(redirectRef.current);
     };
@@ -36,15 +30,14 @@ export default function PortfolioUpload() {
   const doUpload = async (formData: FormData) => {
     setIsLoading(true);
     try {
-      const response = await uploadPortfolio(formData);
-      console.log("Upload successful", response.data);
+      await uploadPortfolio(formData);
 
       showAlert("success", "Upload successful!");
       setFile(null);
       setName("");
 
       redirectRef.current = setTimeout(() => {
-        window.location.href = "/portfolios";
+        navigate("/portfolios");
       }, 1500);
     } catch (err: unknown) {
       const error = err as { response?: { status?: number } };

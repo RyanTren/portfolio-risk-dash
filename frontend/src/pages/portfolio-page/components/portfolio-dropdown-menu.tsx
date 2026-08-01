@@ -8,7 +8,6 @@ import {
 
 import { ChevronDown } from "lucide-react";
 
-// import "../../types/risk";
 import type { PortfolioSelectProps } from "../../../types/ui";
 
 export function PortfolioSelect({ portfolios, selectedId, onSelect }: PortfolioSelectProps) {

@@ -1,180 +1,174 @@
-import React,{ useEffect, useState, useRef } from "react";
-import axios from "axios";
-
-import { Button } from "../../components/ui/button"
-
-import { 
-  PortfolioSelect 
-} from "../portfolio-page/components/portfolio-dropdown-menu"
-import RiskChart from "./components/RiskChart";
-
-import type { Portfolio} from "../../types/portfolio"
-import type { RiskResult } from "../../types/risk";
+import { useEffect, useState, useRef } from "react";
 import { Spinner } from "@heroui/spinner";
-import AlertPopUp  from "../../components/ui/alert";
-import { useAlert } from "../../hooks/useAlert";
-
 import { AnimatePresence } from "framer-motion";
 
-const RunRisk = () => {
+import { Button } from "../../components/ui/button";
+import { PortfolioSelect } from "../portfolio-page/components/portfolio-dropdown-menu";
+import RiskChart from "./components/RiskChart";
+import { usePortfolios } from "../../hooks/usePortfolios";
+import { useAlert } from "../../hooks/useAlert";
+import { runRisk, getRiskStatus } from "../../api/risk";
+import AlertPopUp from "../../components/ui/alert";
 
-  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+import type { RiskResult } from "../../types/risk";
+
+const RunRisk = () => {
+  const { portfolios } = usePortfolios();
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [status, setStatus] = useState("");
   const [result, setResult] = useState<RiskResult | null>(null);
   const [runCounts, setRunCounts] = useState<Record<number, number>>({});
   const [isRunning, setIsRunning] = useState(false);
   const { alert, showAlert } = useAlert();
-  const selectedPortfolio = portfolios.find(p => p.id === selectedId);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Alert timeout
-  React.useEffect(() => {
-      if (!alert) return;
-  
-      const timer = setTimeout(() => {
-        showAlert("warning", "Timeout: Risk result may be stale. Please refresh.");
-      }, 3000);
-  
-      return () => clearTimeout(timer);
-    }, [alert]);
-  // Load portfolios
-  useEffect(() => {
-    axios.get("http://localhost:5233/api/portfolio")
-      .then(res => setPortfolios(res.data))
-      .catch(err => console.error(err));
-  }, []);
+  const selectedPortfolio = portfolios.find((p) => p.id === selectedId);
 
-  // Clear previous result whenever a new portfolio is selected and stop polling when switching portfolios or when leaving page
+  // Clear polling when switching portfolios
   useEffect(() => {
-    // stop polling if switching portfolios
     if (pollingRef.current) {
       clearInterval(pollingRef.current);
       pollingRef.current = null;
     }
-
-
-    // reset UI
-    // setResult(null);
-    // setStatus("");
   }, [selectedId]);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+      }
+    };
+  }, []);
 
-  const runRisk = async () => {
+  const handleRunRisk = async () => {
     if (!selectedId) {
-      // alert("No Portfolio was picked. Please select a portfolio.");
       showAlert("warning", "No portfolio was picked. Please select a portfolio.");
-      setStatus("Pick a portfolio.");
       return;
     }
 
-    if (selectedId) {
-      const count = runCounts[selectedId] ?? 0;
-
-      if (count >= 3) {
-        showAlert("warning", "Limit reached: You can only run risk 3× for this portfolio.");
-        setStatus("Limit reached: You can only run risk 3× for this portfolio.");
-        return;
-      }
+    const count = runCounts[selectedId] ?? 0;
+    if (count >= 3) {
+      showAlert("warning", "Limit reached: You can only run risk 3x for this portfolio.");
+      return;
     }
 
-
-    // stops any existings polling before starting new run
+    // Stop any existing polling
     if (pollingRef.current) {
       clearInterval(pollingRef.current);
       pollingRef.current = null;
     }
 
+    setResult(null);
     setIsRunning(true);
-    setStatus("Starting risk calculation...");
 
     try {
-      const response = await axios.post(
-        `http://localhost:5233/risk/run/`, { portfolioId: selectedId });
+      const response = await runRisk(selectedId);
       const riskId = response.data.jobId;
 
-      // increment count
-      setRunCounts(prev => ({
+      setRunCounts((prev) => ({
         ...prev,
-        [selectedId]: (prev[selectedId] ?? 0) + 1
+        [selectedId]: (prev[selectedId] ?? 0) + 1,
       }));
 
-      <Spinner size="lg" />
-      setStatus(`Running risk job #${riskId}...`);
-
-      // start new polling loop and save the ID and poll the backend every 2 seconds until status = "Completed"
+      // Poll every 2 seconds until completed
       pollingRef.current = setInterval(async () => {
-        const r = await axios.get(`http://localhost:5233/risk/status/${riskId}`);
+        const r = await getRiskStatus(riskId);
         setResult(r.data);
 
-        if (r.data.status === "Completed") {
+        if (r.data.status === "Completed" || r.data.status === "Failed") {
           setIsRunning(false);
-          // setStatus("Risk calculation finished.");
-          showAlert("success", "Risk calculation finished.");
           clearInterval(pollingRef.current!);
           pollingRef.current = null;
+
+          if (r.data.status === "Completed") {
+            showAlert("success", "Risk calculation finished.");
+          } else {
+            showAlert("danger", "Risk calculation failed.");
+          }
         }
       }, 2000);
-    } catch (err: unknown) {
-      console.error(err);
-
+    } catch {
       setIsRunning(false);
-      setStatus("Error starting risk calculation.");
+      showAlert("danger", "Error starting risk calculation.");
     }
   };
 
-  if (!portfolios || portfolios.length === 0) {
-    return(
-    <div className="flex items-center justify-center h-[60vh]">
-      <p className="text-muted-foreground">
-        No portfolios found.
-      </p>
-    </div>
+  if (portfolios.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[60vh]">
+        <p className="text-muted-foreground">No portfolios found.</p>
+      </div>
     );
   }
 
   return (
-    <div className="page">
-      <AnimatePresence>{alert && <AlertPopUp color={alert.color} title={alert.title} />}</AnimatePresence>
-      <h2 className="h2" style={{margin: 10, padding: 10, justifyContent: "center", alignItems: "center", textAlign: "center"}}>Run Risk Calculation</h2>
+    <div className="max-w-4xl mx-auto px-6 py-10">
+      <AnimatePresence>
+        {alert && <AlertPopUp color={alert.color} title={alert.title} />}
+      </AnimatePresence>
 
-      <PortfolioSelect
-        portfolios={portfolios}
-        selectedId={selectedId}
-        onSelect={(id) => setSelectedId(id)}
-      />
+      <h2 className="text-3xl font-semibold text-center mb-8">
+        Run Risk Calculation
+      </h2>
 
-      {status && status !== "Risk calculation finished." && (
-        <p style={{ flex: "center", justifyContent: "center", alignItems: "center", textAlign: "center", margin: 50, padding: 50 }}>
-          {status}
-        </p>
-      )}
+      <div className="flex flex-col items-center gap-6">
+        <PortfolioSelect
+          portfolios={portfolios}
+          selectedId={selectedId}
+          onSelect={(id) => setSelectedId(id)}
+        />
+
+        <Button
+          variant="outline"
+          className="px-8 py-5 text-base"
+          onClick={handleRunRisk}
+          disabled={isRunning || !selectedId}
+        >
+          {isRunning ? (
+            <span className="flex items-center gap-2">
+              <Spinner size="sm" /> Running...
+            </span>
+          ) : (
+            "Run Risk"
+          )}
+        </Button>
+      </div>
 
       {isRunning && (
-        <div style={{ textAlign: "center", marginTop: 20}}>
+        <div className="flex flex-col items-center gap-3 mt-10">
           <Spinner size="lg" />
+          <p className="text-muted-foreground text-sm">Calculating risk metrics...</p>
         </div>
       )}
 
-      {result && (
-        <div className="result-card" style={{ justifyContent: "center", alignContent: "center", alignItems: "center", margin: 200, padding: 50 }}>
-          <h2 className="h2">Risk Result{selectedPortfolio ? ` for ${selectedPortfolio.name}` : ""}</h2>
-          <p>VaR: {result.vaR?.toLocaleString()}</p>
-          <p>Stress Loss: {result.stressLoss?.toLocaleString()}</p>
-          <p>Total Value: {result.portfolioValue?.toLocaleString()}</p>
-          <a>Status: {result.status}</a>
+      {result && !isRunning && (
+        <div className="mt-12 flex flex-col items-center">
+          <h3 className="text-2xl font-medium mb-6">
+            Risk Result{selectedPortfolio ? ` for ${selectedPortfolio.name}` : ""}
+          </h3>
+
+          <div className="grid grid-cols-3 gap-6 mb-8 w-full max-w-md">
+            <div className="text-center p-4 rounded-lg bg-accent">
+              <p className="text-sm text-muted-foreground mb-1">Portfolio Value</p>
+              <p className="text-xl font-semibold">{result.portfolioValue?.toLocaleString()}</p>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-accent">
+              <p className="text-sm text-muted-foreground mb-1">VaR</p>
+              <p className="text-xl font-semibold">{result.vaR?.toLocaleString()}</p>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-accent">
+              <p className="text-sm text-muted-foreground mb-1">Stress Loss</p>
+              <p className="text-xl font-semibold">{result.stressLoss?.toLocaleString()}</p>
+            </div>
+          </div>
 
           <RiskChart
+            value={result.portfolioValue!}
             varValue={result.vaR!}
             stressLoss={result.stressLoss!}
-            totalValue={result.portfolioValue!}
-            status={result.status!}
           />
         </div>
       )}
-
-
-      <Button variant="outline" style={{margin: 35, padding: 20}} onClick={runRisk} disabled={status.includes("Running")}>Run Risk</Button>
     </div>
   );
 };

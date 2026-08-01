@@ -1,6 +1,3 @@
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import "../../styles/globals.css";
 import Hero from "./components/Hero";
 import DashboardPreview from "../../components/Chart";
 import { Safari } from "./components/safari";

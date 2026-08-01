@@ -1,4 +1,4 @@
-// import React from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion';
 import { Sparkles, TrendingUp, Shield, Zap } from 'lucide-react';
@@ -217,7 +217,7 @@ export default function Hero() {
           >
             <Button
               onClick={() => navigate('/upload')}
-              className="relative px-8 py-4 mt-15 bg-gradient-to-r from-green-400 to-green-700 hover:from-green-700 hover:to-grenn-900 text-white rounded-full font-semibold text-md ring-1 hover:ring-1 hover:ring-white-400/20 transition-all duration-400 flex items-center overflow-hidden"
+              className="relative px-8 py-4 mt-15 bg-gradient-to-r from-green-400 to-green-700 hover:from-green-700 hover:to-green-900 text-white rounded-full font-semibold text-md ring-1 hover:ring-1 hover:ring-white-400/20 transition-all duration-400 flex items-center overflow-hidden"
             >
               {/* Animated gradient overlay */}
               <motion.div
@@ -250,26 +250,25 @@ export default function Hero() {
 
 
         {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
+        {useMemo(() => [...Array(20)].map((_, i) => ({
+          id: i,
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          duration: 3 + Math.random() * 2,
+          delay: Math.random() * 2,
+        })), []).map((p) => (
           <motion.div
-            key={i}
+            key={p.id}
             className="absolute w-2 h-2 bg-white/20 rounded-full"
-            style={{
-              // eslint-disable-next-line react-hooks/purity
-              left: `${Math.random() * 100}%`,
-              // eslint-disable-next-line react-hooks/purity
-              top: `${Math.random() * 100}%`,
-            }}
+            style={{ left: p.left, top: p.top }}
             animate={{
               y: [0, -25, 100],
               opacity: [0.2, 0.5, 0.2],
             }}
             transition={{
-              // eslint-disable-next-line react-hooks/purity
-              duration: 3 + Math.random() * 2,
+              duration: p.duration,
               repeat: Infinity,
-              // eslint-disable-next-line react-hooks/purity
-              delay: Math.random() * 2,
+              delay: p.delay,
             }}
           />
         ))}

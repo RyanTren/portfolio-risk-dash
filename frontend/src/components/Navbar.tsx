@@ -3,22 +3,18 @@ import { ModeToggle } from "./ui/theme/theme-mode-toggle";
 import { useTheme } from "./ui/theme/theme-provider";
 import logoLight from "../assets/logos/logoLight.svg";
 import logoDark from "../assets/logos/logoDark.svg";
-import "../styles/globals.css"
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Ensure component is mounted to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Determine the actual theme
   const getEffectiveTheme = () => {
-    if (!mounted) return "light"; // Default during SSR
-    
+    if (!mounted) return "light";
     if (theme === "system") {
       return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
@@ -29,31 +25,15 @@ export default function Navbar() {
   const logoSrc = effectiveTheme === "dark" ? logoDark : logoLight;
 
   return (
-    <nav className="nav" style={{
-        padding: "12px",
-        borderRadius: "10px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: "var(--background)",
-        color: "var(--foreground)",
-        position: "sticky",
-        top: 0,
-        zIndex: 50
-      }}>
-        <div style={{
-          display: "flex",
-          gap: "20px",
-          alignItems: "center"
-        }}>
-          <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-            <img src={logoSrc} alt="Logo" style={{ width: "120px", height: "32px" }} />
-          </Link>
-          <Link to="/portfolios">Portfolios</Link>
-          <Link to="/upload">Upload</Link>
-          <Link to="/run-risk">Run Risk</Link>
-        </div>
-      
+    <nav className="flex items-center justify-between p-3 rounded-xl bg-background text-foreground sticky top-0 z-50 shadow-lg">
+      <div className="flex items-center gap-5">
+        <Link to="/" className="flex items-center">
+          <img src={logoSrc} alt="Logo" className="w-[120px] h-8" />
+        </Link>
+        <Link to="/portfolios">Portfolios</Link>
+        <Link to="/upload">Upload</Link>
+        <Link to="/run-risk">Run Risk</Link>
+      </div>
       <ModeToggle />
     </nav>
   );
