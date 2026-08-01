@@ -1,5 +1,4 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import "../styles/globals.css";
 
 const data = [
   { name: "Jan", value: 32917 },
@@ -14,13 +13,12 @@ const data = [
 export default function DashboardPreview() {
   return (
     <div className="w-full max-w-4xl mx-auto my-16 px-4">
-      {/* <h2 className="text-2xl font-bold mb-4 text-center">Portfolio Risk Trend</h2> */}
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Line type="monotone" dataKey="value" stroke="#6366F1" strokeWidth={3} />
+          <Line type="monotone" dataKey="value" stroke="#28df21" strokeWidth={3} />
         </LineChart>
       </ResponsiveContainer>
     </div>

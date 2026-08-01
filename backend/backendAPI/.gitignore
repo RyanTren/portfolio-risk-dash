@@ -1,16 +1,9 @@
-*.vs
-
-# Environment files
 *.env
 .env*
 
-/.opencode
-D:\OpenCode\.opencode
-conventions.md
-
 # .NET build folders
-bin/
-obj/
+/bin/
+/obj/
 
 # Build output artifacts
 *.dll
@@ -30,10 +23,4 @@ apphost.exe
 
 # VSCode
 .vscode/
-
-# Tool config (not part of the project)
-opencode.json
-
-# Root lockfile (only frontend/ has one)
-/package-lock.json
 

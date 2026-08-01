@@ -1,8 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
 
 @plugin '../hero.ts';
 /* Note: You may need to change the path to fit your project structure */
@@ -154,7 +151,7 @@ a {
   font-family: 'Inter', sans-serif;
 }
 a:hover {
-  color: darken(var(--primary), 10%);
+  opacity: 0.8;
   font-family: 'Inter', sans-serif;
 }
 

@@ -1,4 +1,3 @@
-// Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
@@ -7,14 +6,15 @@ import {HeroUIProvider} from "@heroui/react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { ThemeProvider } from "./components/ui/theme-provider";
+import { ThemeProvider } from "./components/ui/theme/theme-provider";
 
-import PortfolioList from "./pages/PortfolioList";
-import PortfolioUpload from "./components/ui/PortfolioUpload";
-import PortfolioDetail from "./pages/PortfolioDetail";
-import RiskResultPage from "./pages/RiskResultPage";
-import RunRisk from "./pages/RunRisk";
-import HomePage from "./pages/Home";
+import PortfolioList from "./pages/portfolio-page/PortfolioList";
+import PortfolioUpload from "./pages/portfolio-page/components/PortfolioUpload";
+import PortfolioDetail from "./pages/portfolio-page/PortfolioDetail";
+import RiskResultPage from "./pages/risk-page/RiskResultPage";
+import RunRisk from "./pages/risk-page/RunRisk";
+import HomePage from "./pages/home-page/Home";
+import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <HeroUIProvider>
       <MantineProvider>
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="bg-background text-foreground">
           <Router>
             <Navbar  />
             <Routes>
@@ -35,7 +35,8 @@ function App() {
 
               <Route path="/risk/:id" element={<RiskResultPage />} />
 
-              <Route path="run-risk" element={<RunRisk/>}></Route>
+              <Route path="/run-risk" element={<RunRisk/>}></Route>
+              <Route path="*" element={<NotFound />} />
 
             </Routes>
             <Footer />

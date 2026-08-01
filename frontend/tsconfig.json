@@ -6,9 +6,10 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["./*"]
     },
     "types": ["node"],
-  }
+  },
 }
