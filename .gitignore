@@ -1,7 +1,12 @@
 *.vs
 
+# Environment files
 *.env
 .env*
+
+/.opencode
+D:\OpenCode\.opencode
+conventions.md
 
 # .NET build folders
 bin/
@@ -15,7 +20,6 @@ obj/
 *.db
 *.db-wal
 *.db-shm
-*.json
 
 # Razor/C# build caches
 *.dswa.cache.json
