@@ -18,9 +18,21 @@ export default function PortfolioDetail() {
   const { alert, showAlert } = useAlert();
   const { handleDelete } = useDeletePortfolio(showAlert);
 
+  if (isNaN(portfolioId)) {
+    return (
+      <div className="flex items-center justify-center h-[60vh]">
+        <p className="text-muted-foreground">Invalid portfolio ID.</p>
+      </div>
+    );
+  }
+
   const startRisk = async () => {
-    const res = await runRisk(portfolioId);
-    navigate(`/risk/${res.data.jobId}`);
+    try {
+      const res = await runRisk(portfolioId);
+      navigate(`/risk/${res.data.jobId}`);
+    } catch {
+      showAlert("danger", "Failed to start risk calculation.");
+    }
   };
 
   if (loading || !portfolio) {

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Spinner } from "@heroui/spinner";
+import { Spinner } from "@heroui/react";
 import { AnimatePresence } from "framer-motion";
 
 import { Button } from "../../components/ui/button";
@@ -20,8 +20,15 @@ const RunRisk = () => {
   const [isRunning, setIsRunning] = useState(false);
   const { alert, showAlert } = useAlert();
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const mountedRef = useRef(true);
 
   const selectedPortfolio = portfolios.find((p) => p.id === selectedId);
+
+  // Track mounted state
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
 
   // Clear polling when switching portfolios
   useEffect(() => {
@@ -34,6 +41,7 @@ const RunRisk = () => {
   // Cleanup on unmount
   useEffect(() => {
     return () => {
+      mountedRef.current = false;
       if (pollingRef.current) {
         clearInterval(pollingRef.current);
       }
@@ -72,19 +80,28 @@ const RunRisk = () => {
 
       // Poll every 2 seconds until completed
       pollingRef.current = setInterval(async () => {
-        const r = await getRiskStatus(riskId);
-        setResult(r.data);
+        try {
+          const r = await getRiskStatus(riskId);
+          if (!mountedRef.current) return;
+          setResult(r.data);
 
-        if (r.data.status === "Completed" || r.data.status === "Failed") {
+          if (r.data.status === "Completed" || r.data.status === "Failed") {
+            setIsRunning(false);
+            clearInterval(pollingRef.current!);
+            pollingRef.current = null;
+
+            if (r.data.status === "Completed") {
+              showAlert("success", "Risk calculation finished.");
+            } else {
+              showAlert("danger", "Risk calculation failed.");
+            }
+          }
+        } catch {
+          if (!mountedRef.current) return;
           setIsRunning(false);
           clearInterval(pollingRef.current!);
           pollingRef.current = null;
-
-          if (r.data.status === "Completed") {
-            showAlert("success", "Risk calculation finished.");
-          } else {
-            showAlert("danger", "Risk calculation failed.");
-          }
+          showAlert("danger", "Error polling risk status.");
         }
       }, 2000);
     } catch {

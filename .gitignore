@@ -31,3 +31,9 @@ apphost.exe
 # VSCode
 .vscode/
 
+# Tool config (not part of the project)
+opencode.json
+
+# Root lockfile (only frontend/ has one)
+/package-lock.json
+

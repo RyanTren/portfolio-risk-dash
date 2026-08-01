@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 
 interface RiskChartProps {
   value: number;
@@ -14,12 +14,14 @@ export default function RiskChart({ value, varValue, stressLoss }: RiskChartProp
   ];
 
   return (
-    <BarChart width={500} height={300} data={data}>
-      <CartesianGrid />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Bar dataKey="amount" fill="#8884d8" />
-    </BarChart>
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={data}>
+        <CartesianGrid />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Bar dataKey="amount" fill="#8884d8" />
+      </BarChart>
+    </ResponsiveContainer>
   );
 }

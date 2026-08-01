@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getPortfolios } from "../api/portfolio";
 import type { Portfolio } from "../types/portfolio";
 
@@ -7,7 +7,7 @@ export function usePortfolios() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPortfolios = async () => {
+  const fetchPortfolios = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -18,11 +18,11 @@ export function usePortfolios() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchPortfolios();
-  }, []);
+  }, [fetchPortfolios]);
 
   return { portfolios, loading, error, refetch: fetchPortfolios };
 }

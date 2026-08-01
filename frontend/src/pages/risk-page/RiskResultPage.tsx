@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getRiskStatus } from "../../api/risk";
 import type { RiskResult } from "../../types/risk";
 import RiskChart from "./components/RiskChart";
@@ -13,18 +13,32 @@ export default function RiskResultPage() {
   const [result, setResult] = useState<RiskResult | null>(null);
   const { alert, showAlert } = useAlert();
 
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(async () => {
-      const res = await getRiskStatus(Number(id));
-      setResult(res.data);
+      try {
+        const res = await getRiskStatus(Number(id));
+        if (!mountedRef.current) return;
+        setResult(res.data);
 
-      if (res.data.status === "Completed" || res.data.status === "Failed") {
-        clearInterval(interval);
-        if (res.data.status === "Completed") {
-          showAlert("success", "Risk Run Completed!");
-        } else {
-          showAlert("danger", "Risk Run Failed!");
+        if (res.data.status === "Completed" || res.data.status === "Failed") {
+          clearInterval(interval);
+          if (res.data.status === "Completed") {
+            showAlert("success", "Risk Run Completed!");
+          } else {
+            showAlert("danger", "Risk Run Failed!");
+          }
         }
+      } catch {
+        if (!mountedRef.current) return;
+        clearInterval(interval);
+        showAlert("danger", "Error polling risk status.");
       }
     }, 1500);
 
