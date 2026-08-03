@@ -1,85 +1,96 @@
-using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 using backend.backendAPI.Models;
 using backend.backendAPI.Data;
-using backend.backendAPI.Models.Requests;
+using backend.backendAPI.Interfaces;
+using backend.backendAPI.Helpers;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace backend.backendAPI.Services
 {
-    public class RiskCalculationService
+    /// <summary>
+    /// Handles risk calculation logic including VaR and stress loss computations.
+    /// </summary>
+    public class RiskCalculationService : IRiskService
     {
         private readonly AppDbContext _db;
-        public RiskCalculationService(AppDbContext db)
+        private readonly RiskCalculationOptions _options;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RiskCalculationService"/> class.
+        /// </summary>
+        /// <param name="db">The application database context.</param>
+        /// <param name="options">Risk calculation configuration.</param>
+        public RiskCalculationService(AppDbContext db, IOptions<RiskCalculationOptions> options)
         {
             _db = db;
+            _options = options.Value;
         }
 
+        /// <inheritdoc/>
         public async Task<int> StartRiskRunAsync(int portfolioId)
         {
             var job = new RiskResult
             {
                 PortfolioId = portfolioId,
-                Status = "Pending",
+                Status = RiskResultStatus.Pending,
                 Timestamp = DateTime.UtcNow
             };
 
             _db.RiskResults.Add(job);
             await _db.SaveChangesAsync();
 
-            // 2. Queue background work (future)
-            // BackgroundService / Hangfire task to compute risk later
-            
-            await RunCalculationAsync(job.riskId);
+            // TODO: Queue background work (BackgroundService / Hangfire)
+            await RunCalculationAsync(job.RiskId);
 
-            return job.riskId;
+            return job.RiskId;
         }
 
+        /// <inheritdoc/>
+        public async Task<RiskResult?> GetRiskResultAsync(int riskId)
+        {
+            return await _db.RiskResults.FindAsync(riskId);
+        }
+
+        /// <summary>
+        /// Executes the risk calculation for a given risk result record.
+        /// Computes portfolio value, Value at Risk (VaR), and stress loss.
+        /// </summary>
         private async Task RunCalculationAsync(int id)
         {
             var record = await _db.RiskResults.FindAsync(id);
 
-            if(record is null)
-            {
-                return; // nothing to update, record not found
-            }
+            if (record is null)
+                return;
 
             try
             {
-                // 1. load positions
-            var positions = await _db.Positions
-                .Where(p => p.PortfolioId == record.PortfolioId)
-                .ToListAsync();
+                var positions = await _db.Positions
+                    .Where(p => p.PortfolioId == record.PortfolioId)
+                    .ToListAsync();
 
-            if (!positions.Any())
+                if (!positions.Any())
+                {
+                    record.Status = RiskResultStatus.Failed;
+                    await _db.SaveChangesAsync();
+                    return;
+                }
+
+                decimal totalValue = positions.Sum(p => p.Quantity * p.Price);
+                decimal var = RiskCalculationHelpers.CalculateVaR(
+                    totalValue, _options.Volatility, _options.VarMultiplier);
+                decimal stressLoss = RiskCalculationHelpers.CalculateStressLoss(
+                    totalValue, _options.StressLossPercent);
+
+                record.PortfolioValue = totalValue;
+                record.VaR = var;
+                record.StressLoss = stressLoss;
+                record.Status = RiskResultStatus.Completed;
+            }
+            catch
             {
-                record.Status = "Failed";
-                await _db.SaveChangesAsync();
-                return;
+                record.Status = RiskResultStatus.Failed;
             }
 
-            // 2. portfolio value
-            decimal totalValue = positions.Sum(p => p.Quantity * p.Price);
-
-            // 3. volatility assumption (simple)
-            double volatility = 0.02; // 2%
-
-            // 4. VaR
-            decimal VaR = totalValue * (decimal)(1.65 * volatility);
-
-            // 5. Stress loss (-5%)
-            decimal stressLoss = totalValue * 0.05m;
-
-            record.PortfolioValue = totalValue;
-            record.VaR = VaR;
-            record.StressLoss = stressLoss;
-            record.Status = "Completed";
-        }
-        catch
-        {
-            record.Status = "Failed";
-        }
             record.Timestamp = DateTime.UtcNow;
             await _db.SaveChangesAsync();
         }

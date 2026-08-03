@@ -1,21 +1,15 @@
-using System.Text.Json.Serialization;
-
-namespace backend.backendAPI.Models
+namespace backend.backendAPI.DTO.Responses
 {
     /// <summary>
-    /// Represents a single stock position within a portfolio.
+    /// Response DTO representing a single position within a portfolio.
     /// </summary>
-    public class Position
+    public class PositionResponse
     {
         /// <summary>Unique position identifier.</summary>
         public int Id { get; set; }
 
         /// <summary>ID of the parent portfolio.</summary>
         public int PortfolioId { get; set; }
-
-        /// <summary>Reference to the parent portfolio (navigation property).</summary>
-        [JsonIgnore]
-        public Portfolio? Portfolio { get; set; }
 
         /// <summary>Stock ticker symbol.</summary>
         public string Ticker { get; set; } = string.Empty;

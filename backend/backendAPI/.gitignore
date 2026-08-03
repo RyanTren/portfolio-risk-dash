@@ -24,3 +24,6 @@ apphost.exe
 # VSCode
 .vscode/
 
+launchSettings.json
+appsettings.json
+appsettings.Development.json

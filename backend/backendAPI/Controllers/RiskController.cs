@@ -1,73 +1,67 @@
-using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-
-using backend.backendAPI.Data;
-using backend.backendAPI.Services;
-using backend.backendAPI.Models;
-using backend.backendAPI.Models.Requests;
-
+using backend.backendAPI.Interfaces;
+using backend.backendAPI.DTO.Requests;
 
 namespace backend.backendAPI.Controllers
 {
+    /// <summary>
+    /// API endpoints for running risk calculations and checking their status.
+    /// </summary>
     [ApiController]
     [Route("risk")]
     public class RiskController : ControllerBase
     {
-        private readonly RiskCalculationService _service;
-        private readonly Dictionary<string, DateTime> _lastRunByIp = new();
-        private static readonly HashSet<int> _runningJobs = new();
-        private readonly AppDbContext _db;
+        private readonly IRiskService _riskService;
+        private readonly IRiskStateService _stateService;
 
-        public RiskController(RiskCalculationService service, AppDbContext db)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RiskController"/> class.
+        /// </summary>
+        public RiskController(IRiskService riskService, IRiskStateService stateService)
         {
-            _service = service;
-            _db = db;
+            _riskService = riskService;
+            _stateService = stateService;
         }
 
+        /// <summary>
+        /// Starts a new risk calculation run for a portfolio. Requires authentication.
+        /// Rate limited to 5 requests per 30 seconds per client.
+        /// </summary>
+        [Authorize]
         [EnableRateLimiting("riskLimiter")]
         [HttpPost("run")]
         public async Task<IActionResult> StartRun([FromBody] StartRiskRequest req)
         {
             string ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
 
-            // --- Cooldown check (per IP) ---
-            if (_lastRunByIp.TryGetValue(ip, out DateTime last))
-            {
-                if (DateTime.UtcNow - last < TimeSpan.FromSeconds(60))
-                    return BadRequest("Please wait before running again.");
-            }
+            if (!_stateService.CanRun(ip, req.PortfolioId))
+                return BadRequest("Please wait before running again or a job is already in progress.");
 
-            // --- One job per portfolio check ---
-            if (_runningJobs.Contains(req.PortfolioId))
-                return Conflict("A risk job is already running for this portfolio.");
+            _stateService.MarkRunning(ip, req.PortfolioId);
 
-            // Mark as active
-            _runningJobs.Add(req.PortfolioId);
-            _lastRunByIp[ip] = DateTime.UtcNow;
-
-            int jobId;
             try
             {
-                jobId = await _service.StartRiskRunAsync(req.PortfolioId);
+                int jobId = await _riskService.StartRiskRunAsync(req.PortfolioId);
+                return Ok(new { jobId });
             }
             finally
             {
-                // job finished → unlock
-                _runningJobs.Remove(req.PortfolioId);
+                _stateService.MarkComplete(req.PortfolioId);
             }
-
-            return Ok(new { jobId });
         }
 
+        /// <summary>
+        /// Retrieves the status and results of a risk calculation by ID.
+        /// </summary>
         [HttpGet("status/{id}")]
         public async Task<IActionResult> GetStatus(int id)
         {
-            var result = await _db.RiskResults.FindAsync(id);
-            if(result == null)
-            {
+            var result = await _riskService.GetRiskResultAsync(id);
+            if (result is null)
                 return NotFound();
-            }
+
             return Ok(result);
         }
     }
