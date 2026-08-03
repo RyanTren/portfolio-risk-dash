@@ -37,3 +37,6 @@ opencode.json
 # Root lockfile (only frontend/ has one)
 /package-lock.json
 
+backend/backendAPI/Properties/launchSettings.json
+appsettings.json
+appsettings.Development.json
